@@ -1,0 +1,34 @@
+{% extends 'LmiSchoolBundle::base.html.twig' %}
+{% form_theme form 'LmiSchoolBundle::FormTemplate/fields.html.twig' %}
+
+{% block title %}{{ 'lmi.school.common.news.page_title'|trans }}{% endblock %}
+
+{% block content %}
+    <div id="news">
+        {{ form_errors(form) }}
+        <form class="form-horizontal" method="POST" action="{{ path('news_create') }}">
+            <fieldset>
+                <legend>{{ 'lmi.school.common.news.add_news_title'|trans }}</legend>
+                {{ form_widget(form) }}
+                <div class="control-group">
+                    <div class="controls">
+                        <button name="news-add" class="btn btn-success">{{ 'lmi.school.common.news.add_button'|trans }}</button>
+                        <button name="news-cancel" class="btn btn-danger">{{ 'lmi.school.common.news.cancel_button'|trans }}</button>
+                    </div>
+                </div>
+                <div class="hidden">
+                    {{ form_rest(form) }}
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $('[name="news-cancel"]').first().click(function(e) {
+            e.preventDefault();
+            location.href = "{{ path('news') }}";
+        });
+    </script>
+{% endblock %}

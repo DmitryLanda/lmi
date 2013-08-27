@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    {% block stylesheet %}{% endblock %}
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script></head>
+<body>
+    <div>
+        <img src="http://lmi-school.ru/image/winter_header.jpg">
+    </div>
+    {% include "LmiSchoolBundle::navbar.html.twig" %}
+    <div class="container-fluid" style="padding-top: 40px;">
+        <div class="row-fluid">
+            <div class="span3">
+                {% include "LmiSchoolBundle::leftMenu.html.twig" %}
+            </div>
+            <div class="span9" style="padding-left: 20px;  padding-right: 20px;">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+        <hr>
+    </div>
+    <footer class="text-center">
+        {% include "LmiSchoolBundle::footer.html.twig" %}
+    </footer>
+    {% block javascript %}{% endblock %}
+    <script>
+        $(document).ready(function() {
+            var originTop = [];
+            var commonHeight = 0;
+            var elements = $('.fix-on-scroll');
+
+            $.each(elements, function(i, element) {
+                //collect initial padding from top value
+                originTop[i] = parseFloat($(element).css('top'));
+                //calculate total height of fixed elements
+                commonHeight += $(element).height()
+            });
+
+            //elements with display:fixed property couldn't inherit parent dimensions.
+            //and it placed 'under' all other dom elements
+            //so we have to do some trick to let our page looks pretty
+
+            $(window).scroll(function() {
+                var scrollTop = parseFloat($(this).scrollTop());
+                $.each(elements, function(i, element) {
+                    var top = 0;
+
+                    if (i > 0) {
+                        var prev = elements.eq(i - 1);
+                        top = $(prev).height() || 0;
+                    }
+
+                    if (scrollTop < originTop[i]) {
+                        $(element).css('top', top + (originTop[i] - scrollTop) + 'px');
+                    } else {
+                        $(element).css('top', top);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

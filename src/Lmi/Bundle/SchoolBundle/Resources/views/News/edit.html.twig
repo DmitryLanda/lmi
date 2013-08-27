@@ -1,0 +1,46 @@
+{% extends 'LmiSchoolBundle::base.html.twig' %}
+{% form_theme form 'LmiSchoolBundle::FormTemplate/fields.html.twig' %}
+
+{% block title %}{{ 'lmi.school.common.news.page_title'|trans }}{% endblock %}
+
+{% block content %}
+    <div id="news">
+        {{ form_errors(form) }}
+        <form class="form-horizontal" method="POST" action="{{ path('news_update', {'id': news.id}) }}">
+            <fieldset>
+                <legend>{{ 'lmi.school.common.news.edit_news_title'|trans }}</legend>
+                {{ form_row(form.showDate) }}
+                {{ form_row(form.title) }}
+                {{ form_row(form.content) }}
+                {% if form.image.vars.value or 1 %}
+                    <div class="control-group">
+                        <label class="control-label">{{ 'lmi.school.common.news.old_image'|trans }}</label>
+                        <div class="controls thumbnail span3">
+                            <img src="{{ asset('bundles/lmischool/images/no-image-available.png') }}">
+                        </div>
+                    </div>
+                {% endif %}
+                {{ form_row(form.image) }}
+                {{ form_row(form.author) }}
+                <div class="control-group">
+                    <div class="controls">
+                        <button name="news-add" class="btn btn-success">{{ 'lmi.school.common.news.save_button'|trans }}</button>
+                        <button name="news-cancel" class="btn btn-danger">{{ 'lmi.school.common.news.cancel_button'|trans }}</button>
+                    </div>
+                </div>
+                <div class="hidden">
+                    {{ form_rest(form) }}
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $('[name="news-cancel"]').first().click(function(e) {
+            e.preventDefault();
+            location.href = "{{ path('news') }}";
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,23 @@
+lmi:
+    school:
+        common:
+            no_results: По вашему запросу ничего не найдено. Попробуйте изменить условия поиска и поискать снова...
+            news:
+                page_title: Новости, происшествия, события
+                add_news_title: Добавить новость
+                show_date: Дата выхода
+                date_placeholder: Показвать новость после...
+                caption: Название
+                caption_placeholder: Новость...
+                content: Новость
+                content_placeholder: Что-то произошло...
+                image: Новая картинка
+                author: Автор
+                author_placeholder: Автор новости
+                add_button: Добавить
+                cancel_button: Отменить
+                title: Новости
+                read_more: Читать дальше
+                edit_news_title: Редактировать новость
+                save_button: Сохранить
+                old_image: Текущая картинка

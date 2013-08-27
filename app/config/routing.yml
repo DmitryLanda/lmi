@@ -1,0 +1,4 @@
+lmi_school:
+    resource: "@LmiSchoolBundle/Resources/config/routing.yml"
+    prefix:   /
+

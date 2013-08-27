@@ -1,0 +1,4 @@
+lmi_school_news:
+    resource: "@LmiSchoolBundle/Resources/config/routing/news.yml"
+    prefix:   /news
+
