@@ -1,0 +1,7 @@
+news:
+    pattern:  /
+    defaults: { _controller: "LmiSchoolBundle:News:index" }
+
+news_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "LmiSchoolBundle:News:show" }

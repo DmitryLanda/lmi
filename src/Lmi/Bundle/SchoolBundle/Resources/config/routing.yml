@@ -1,4 +1,11 @@
-lmi_school_news:
-    resource: "@LmiSchoolBundle/Resources/config/routing/news.yml"
-    prefix:   /news
+homepage:
+    pattern:   /
+    defaults:  { _controller: LmiSchoolBundle:News:index }
 
+common:
+    resource: "@LmiSchoolBundle/Resources/config/routing/common.yml"
+    prefix:   /
+
+admin:
+    resource: "@LmiSchoolBundle/Resources/config/routing/admin.yml"
+    prefix:   /admin
