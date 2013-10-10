@@ -89,3 +89,8 @@ lmi:
                 document: Ссылка на проект
                 document_placeholder: http://disk.yandex.ru/my_file
                 published_at: Дата раработки/публикации
+            room:
+                page_title: Школьные кабинеты
+                title: Школьные кабинеты
+                number: Кабинет №
+                show: Посмотреть

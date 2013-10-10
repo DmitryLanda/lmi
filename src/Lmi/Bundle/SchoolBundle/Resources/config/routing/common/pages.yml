@@ -1,0 +1,6 @@
+page_show:
+    pattern:  /{slug}
+    defaults: { _controller: "LmiSchoolBundle:Content:getPage" }
+    requirements:
+        methods: get
+        slug: (?!admin|login|login_check).+

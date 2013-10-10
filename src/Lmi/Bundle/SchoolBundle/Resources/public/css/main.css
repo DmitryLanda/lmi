@@ -1,0 +1,76 @@
+.floating-header {
+    position: fixed;
+    top: 0;
+    z-index: 100;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.visible {
+    visibility: visible;
+}
+
+.normal-margin-top {
+    margin-top: 45px;
+}
+
+.padding-right-10 {
+    padding-right: 10px;
+}
+
+.padding-top-10 {
+    padding-top: 10px;
+}
+
+.dl-horizontal dt {
+    clear: none !important;
+    margin-right: 20px;
+    width: 20%;
+}
+
+.selected {border: 3px solid cornflowerblue}
+
+.hidden {
+    display: none !important;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.thumbnails-preview .thumbnail {
+    height: 75px;
+    margin: 10px 5px 0 0;
+}
+
+.thumbnails-preview div {
+    height: auto !important;
+}
+
+#news .thumbnails > li {
+    margin-left: 0;
+    width: 100%;
+    padding: 10px;
+}
+
+#news .thumbnails > li:nth-child(even) {
+    background-color: #F8F8F8;
+}
+
+#news img.thumbnail {
+    float: left;
+    margin-right: 2%;
+    max-width: 150px;
+}
+
+#news .content:after {
+    clear: both;
+    content: "";
+    display: block;
+}
+
+#news .controls {
+    margin-top: 10px;
+}

@@ -1,0 +1,22 @@
+teacher_new:
+    pattern:  /new
+    defaults: { _controller: "LmiSchoolBundle:Teacher:new" }
+
+teacher_create:
+    pattern:  /
+    defaults: { _controller: "LmiSchoolBundle:Teacher:create" }
+    requirements: { _method: post }
+
+teacher_edit:
+    pattern:  /{name}/edit
+    defaults: { _controller: "LmiSchoolBundle:Teacher:edit" }
+
+teacher_update:
+    pattern:  /{name}
+    defaults: { _controller: "LmiSchoolBundle:Teacher:update" }
+    requirements: { _method: post|put }
+
+teacher_delete:
+    pattern:  /{name}
+    defaults: { _controller: "LmiSchoolBundle:Teacher:delete" }
+    requirements: { _method: delete }

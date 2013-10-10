@@ -10,6 +10,11 @@ lmi_school_images:
     resource: "@LmiSchoolBundle/Resources/config/routing/common/images.yml"
     prefix:   /изображения
 
+lmi_school_room:
+    resource: "@LmiSchoolBundle/Resources/config/routing/common/room.yml"
+    prefix:   /кабинеты
+
 lmi_school_page:
     resource: "@LmiSchoolBundle/Resources/config/routing/common/pages.yml"
     prefix:   /
+

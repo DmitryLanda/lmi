@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="{{ asset('bundles/lmischool/js/yaFotkiWidget.js') }}"></script>
+    <script src="{{ asset('bundles/lmischool/js/yaImageLoader.js') }}"></script>
+    <script src="http://masonry.desandro.com/masonry.pkgd.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css">
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<style>
+    .hidden {display: none;}
+    .selected {border: 3px solid cornflowerblue}
+</style>
+<div data-template="album" class="span2 pull-left hidden">
+    <h4 data-template="title"></h4>
+    <img data-template="thumbnail" class="thumbnail">
+    <div>
+        <i><small data-template="created"></small>, <small data-template="author"></small></i>
+    </div>
+</div>
+<div data-template="photo" class="span2 pull-left hidden">
+    <img data-template="thumbnail" class="thumbnail">
+    <div>
+        <i><small data-template="created"></small>, <small data-template="author"></small></i>
+    </div>
+</div>
+
+<div id="yandex" class="clearfix">
+    {{ form_widget(form) }}
+</div>
+</body>
+</html>

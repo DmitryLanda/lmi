@@ -1,0 +1,129 @@
+{% extends 'LmiSchoolBundle::base.html.twig' %}
+
+{% block title %}{{ teacher.name|trans }}{% endblock %}
+
+{% block content %}
+    {% set image = path('image_get', {'id': teacher.photo.imageId|default(0), 'size': 'medium'}) %}
+
+    <div id="teacher">
+        <h3 class="text-left">{{ teacher.name }}</h3>
+        <div class="tabbable tabs-right">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a data-toggle="tab" href="#common">{{ 'lmi.school.common.teacher.common_info'|trans }}</a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#biography">{{ 'lmi.school.common.teacher.biography'|trans }}</a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#regards">{{ 'lmi.school.common.teacher.regards'|trans }}</a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#projects">{{ 'lmi.school.common.teacher.projects'|trans }}</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="span4 padding-right-10">
+                    <img src="{{ image }}" class="thumbnail pull-left span11">
+                </div>
+                <div id="common" class="tab-pane active">
+                    <dl class="dl-horizontal">
+                        {% set defaultElement = '<span class="muted">' ~ 'lmi.school.common.not_set'|trans ~ '</span>' %}
+
+                        {% set format = teacher.hideBirthdayYear ? 'dd MMMM' : 'dd MMMM Y' %}
+                        <dt>{{ 'lmi.school.common.teacher.birthday'|trans }}</dt>
+                        <dd>{{ teacher.birthday|format_date(format) }}</dd>
+
+                        <dt>{{ 'lmi.school.common.teacher.education_title'|trans }}</dt>
+                        <dd>{{ teacher.education|humanize_education|trans }}</dd>
+
+                        <dt>{{ 'lmi.school.common.teacher.subject'|trans }}</dt>
+                        <dd>{{ teacher.subject }}</dd>
+
+                        <dt>{{ 'lmi.school.common.teacher.category_title'|trans }}</dt>
+                        <dd>{{ teacher.category|humanize_category|trans }}</dd>
+
+                        <dt>{{ 'lmi.school.common.teacher.stag'|trans }}</dt>
+                        <dd>{{ teacher.stag|default(defaultElement)|raw }}</dd>
+
+                        <dt>{{ 'lmi.school.common.teacher.room'|trans }}</dt>
+                        <dd>{{ teacher.room|default(defaultElement)|raw }}</dd>
+
+                        <dt>{{ 'lmi.school.common.teacher.contacts'|trans }}</dt>
+                        <dd>
+                            <ul class="unstyled">
+                                {% for contact in teacher.contacts %}
+                                    <li><small><strong>{{ contact.type }}:</strong> {{ contact.value }}</small></li>
+                                {% else %}
+                                    <li>{{ defaultElement|raw }}</li>
+                                {% endfor %}
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+                <div id="biography" class="tab-pane">
+                    <p class="text-left">{{ teacher.biography|markdown|default(defaultElement)|raw }}</p>
+                </div>
+                <div id="regards" class="tab-pane">
+                    <ul class="unstyled">
+                        {% for regard in teacher.regards %}
+                            <li class="well well-small">
+                                <span>{{ regard.name ~ ', ' ~ regard.date|date('Y') }}</span>
+                            </li>
+                        {% else %}
+                            <li class="span8">{{ defaultElement|raw }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div id="projects" class="tab-pane">
+                    <ul class="unstyled">
+                        {% for project in teacher.projects %}
+                            <li class="well well-small">
+                                <a href="{{ project.document }}">{{ project.name ~ ', ' ~ project.publishedAt|date('Y') }}</a>
+                            </li>
+                        {% else %}
+                            <li class="span8">{{ defaultElement|raw }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div>
+            <ul class="nav nav-pills">
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li>
+                        <a href="{{ path('teacher_edit', {'name': teacher.canonicalName }) }}"><i class="icon icon-pencil"></i></a>
+                    </li>
+                    <li>
+                        <a href="{{ path('teacher_delete', {'name': teacher.canonicalName }) }}" data-action="remove"><i class="icon icon-trash"></i></a>
+                    </li>
+                {% endif %}
+                <li>
+                    <a href="{{ path('teachers') }}">{{ 'lmi.school.common.teacher.back_to_list'|trans }}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <script>
+            $('[data-action="remove"]').click(function(e) {
+                e.preventDefault();
+                var url = $(e.currentTarget).attr('href');
+
+                $.ajax({
+                    url: url,
+                    type: 'DELETE',
+                    success: function(response) {
+                        console.log(response);
+                        if (response == 'OK') {
+                            location.href = "{{ path('teachers') }}";
+                        }
+                    }
+                });
+            });
+        </script>
+    {% endif %}
+{% endblock %}

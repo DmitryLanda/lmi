@@ -1,0 +1,46 @@
+{% extends 'LmiSchoolBundle::base.html.twig' %}
+
+{% set keywords = page.keywords %}
+{% set description = page.description %}
+
+{% block title %}{{ page.description }}{% endblock %}
+
+{% block content %}
+    <div id="site-page">
+        {{ page.content|markdown }}
+    </div>
+    {% if is_granted('ROLE_ADMIN') %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <ul class="nav nav-pills">
+                <li>
+                    <a href="{{ path('page_edit', {'slug': page.slug }) }}"><i class="icon icon-pencil"></i></a>
+                </li>
+                <li>
+                    <a href="{{ path('page_remove', {'slug': page.slug }) }}" data-action="remove"><i class="icon icon-trash"></i></a>
+                </li>
+            </ul>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+{% block javascript %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <script>
+            $('[data-action="remove"]').click(function(e) {
+                e.preventDefault();
+                var url = $(e.currentTarget).attr('href');
+
+                $.ajax({
+                    url: url,
+                    type: 'DELETE',
+                    success: function(response) {
+                        console.log(response);
+                        if (response == 'OK') {
+                            location.href = "{{ path('homepage') }}";
+                        }
+                    }
+                });
+            });
+        </script>
+    {% endif %}
+{% endblock %}

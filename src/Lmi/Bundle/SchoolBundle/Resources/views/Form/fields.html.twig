@@ -1,0 +1,55 @@
+{% block ya_image_loader_widget %}
+    {% spaceless %}
+        <div data-template="album" class="span2 pull-left hidden">
+            <h4 data-template="title"></h4>
+            <img data-template="thumbnail" class="thumbnail">
+            <div>
+                <i><small data-template="created"></small>, <small data-template="author"></small></i>
+            </div>
+        </div>
+        <div data-template="photo" class="span2 pull-left hidden">
+            <img data-template="thumbnail" class="thumbnail">
+            <div>
+                <i><small data-template="created"></small>, <small data-template="author"></small></i>
+            </div>
+        </div>
+
+        <div class="control-group" style="border: 1px solid lightgray">
+            {{ form_widget(form.image) }}
+            <div class="thumbnails-preview clearfix controls">
+                <div id="files-preview"></div>
+            </div>
+        </div>
+        <div class="hidden">
+            {{ form_widget(form.selected_images) }}
+        </div>
+        <div class="control-group" style="border: 1px solid lightgray">
+            <div class="thumbnails-preview clearfix controls">
+                <div id="ya-fotki-preview"></div>
+            </div>
+            <div class="controls">
+                <button name="open-loader" type="button" class="btn btn-success">
+                    <i class="icon icon-globe"></i> Browse Yandex Storage
+                </button>
+            </div>
+        </div>
+        <div class="hidden">
+            {{ form_rest(form) }}
+        </div>
+        <div id="image-container" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="yandex-storage-header" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="yandex-storage-header">Изображения, уже загруженные на yandex fotki</h3>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button name="close-loader" class="btn" data-dismiss="modal" aria-hidden="true">Отмена</button>
+                <button name="select-images" class="btn btn-primary">Готово</button>
+            </div>
+        </div>
+
+        <script src="{{ asset('bundles/lmischool/js/yaFotkiWidget.js') }}"></script>
+        <script src="{{ asset('bundles/lmischool/js/yaImageLoader.js') }}"></script>
+
+    {% endspaceless %}
+{% endblock %}

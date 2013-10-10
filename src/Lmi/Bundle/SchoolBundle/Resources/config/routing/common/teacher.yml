@@ -1,0 +1,9 @@
+teachers:
+    pattern:  /
+    defaults: { _controller: "LmiSchoolBundle:Teacher:index" }
+    requirements: { _method: get }
+
+teacher_show:
+    pattern:  /{name}
+    defaults: { _controller: "LmiSchoolBundle:Teacher:show" }
+    requirements: { _method: get }

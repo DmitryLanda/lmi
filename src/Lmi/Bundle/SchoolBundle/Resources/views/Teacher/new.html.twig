@@ -1,0 +1,61 @@
+{% extends 'LmiSchoolBundle::base.html.twig' %}
+{% form_theme form 'LmiSchoolBundle::FormTemplate/fields.html.twig' %}
+
+{% block title %}{{ 'lmi.school.common.teacher.page_title'|trans }}{% endblock %}
+
+{% block content %}
+    <div id="teachers">
+        {{ form_errors(form) }}
+        <form class="form-horizontal" method="POST" action="{{ path('teacher_create') }}" {{ form_enctype(form) }}>
+            <fieldset>
+                <legend>{{ 'lmi.school.common.teacher.add_teacher_title'|trans }}</legend>
+                {{ form_widget(form) }}
+                <div class="control-group">
+                    <div class="controls">
+                        <button name="teacher-add" class="btn btn-success" type="submit">{{ 'lmi.school.common.add_button'|trans }}</button>
+                        <button name="teacher-cancel" class="btn btn-danger" type="button">{{ 'lmi.school.common.cancel_button'|trans }}</button>
+                    </div>
+                </div>
+                <div class="hidden">
+                    {{ form_rest(form) }}
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $('[name="teacher-cancel"]').first().click(function(e) {
+            e.preventDefault();
+            location.href = "{{ path('teachers') }}";
+        });
+
+        $('[data-action="add-contact"]').click(function(e) {
+            e.preventDefault();
+            var link = $(e.currentTarget);
+
+            var collection = link.parent().find('ul');
+            var prototype = collection.data('prototype');
+            var index = collection.find('li:not(.divider)').length;
+
+            var newItem = $(prototype.replace(/__name__/g, index));
+            var removeLink = $('[data-action="remove-contact"]').first().clone();
+            var removeLinkWrapper = $('<div class="controls"></div>');
+            removeLinkWrapper.append(removeLink);
+
+            newItem = newItem.wrap('li');
+            newItem.append(removeLinkWrapper);
+            collection.append(newItem);
+            collection.append('<li class="divider"></li>');
+        });
+
+        $(document).on('click', '[data-action="remove-contact"]', function(e) {
+            e.preventDefault();
+            var link = $(e.currentTarget);
+
+            var item = link.parentsUntil('ul').last();
+            item.remove();
+        });
+    </script>
+{% endblock %}

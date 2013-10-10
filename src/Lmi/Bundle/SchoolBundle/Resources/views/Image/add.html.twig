@@ -1,0 +1,24 @@
+{% extends 'LmiSchoolBundle::base.html.twig' %}
+{% form_theme form 'LmiSchoolBundle::FormTemplate/fields.html.twig' %}
+
+{% block title %}{{ 'Картинки'|trans }}{% endblock %}
+
+{% block content %}
+    <div id="image">
+        {{ form_errors(form) }}
+        <form class="form-horizontal" method="POST" action="{{ path('upload_image') }}" {{ form_enctype(form) }}>
+            <fieldset>
+                <legend>Загрузка картинки</legend>
+                {{ form_widget(form) }}
+                <div class="control-group">
+                    <div class="controls">
+                        <button name="image-add" class="btn btn-success">{{ 'lmi.school.common.add_button'|trans }}</button>
+                    </div>
+                </div>
+                <div class="hidden">
+                    {{ form_rest(form) }}
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

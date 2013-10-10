@@ -24,11 +24,9 @@
                         <p>{{ news.content|markdown|striptags|truncate(100) }}</p>
                     </div>
                     <div class="controls">
-                        {% if news.content|length > 100 %}
-                            <a class="btn pull-right" href="{{ path('news_show', {'identifier': news.identifier }) }}">
-                                {{ 'lmi.school.common.news.read_more'|trans }}
-                            </a>
-                        {% endif %}
+                        <a class="btn pull-right" href="{{ path('news_show', {'identifier': news.identifier }) }}">
+                            {{ 'lmi.school.common.news.read_more'|trans }}
+                        </a>
                         {% if is_granted('ROLE_ADMIN') %}
                             <ul class="nav nav-pills">
                                 <li>

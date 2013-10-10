@@ -1,0 +1,36 @@
+{% extends 'LmiSchoolBundle::base.html.twig' %}
+
+{% block title %}{{ 'lmi.school.common.login.page_title'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="span9">
+        {% if error %}
+            <div class="alert alert-error">{{ error.message }}</div>
+        {% endif %}
+
+        <form class="form-horizontal well" action="{{ path('login_check') }}" method="post">
+            <fieldset>
+                <div class="control-group">
+                    <label class="control-label" for="username">Логин</label>
+                    <div class="controls">
+                        <input id="username" name="_username" value="{{ last_username }}" placeholder="Введите ваш логин..." class="input-xlarge" type="text">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="password">Пароль</label>
+                    <div class="controls">
+                        <input id="password" name="_password" placeholder="Введите ваш пароль..." class="input-xlarge" type="password">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="controls">
+                        <button class="btn btn-success">Войти</button>
+                        <button class="btn btn-danger">Отмена</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'LmiSchoolBundle::base.html.twig' %}
+
+{% block title %}{{ 'lmi.school.common.teacher.page_title'|trans }}{% endblock %}
+
+{% block content %}
+    <div id="teachers">
+        <h3 class="text-left">Список учителей</h3>
+        {% if is_granted('ROLE_ADMIN') %}
+            <ul class="nav nav-pills">
+                <li><a href="{{ path('teacher_new') }}">Добавить<i class="icon icon-plus"></i></a></li>
+            </ul>
+        {% endif %}
+        <table class="table table-stripped">
+            <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>Ф.И.О.</th>
+                    <th>Предмет</th>
+                    <th>Кабинет</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for teacher in entities %}
+                    <tr>
+                        <td class="span2">
+                            <div class="thumbnail span12">
+                                {% set image = path('image_get', {'id': teacher.photo.imageId|default(0), 'size': 'small'}) %}
+                                <a href="{{ path('teacher_show', {'name': teacher.canonicalName}) }}">
+                                    <img src="{{ image }}" class="span12">
+                                </a>
+                            </div>
+                        </td>
+                        <td>
+                            <ul class="nav nav-pills">
+                                <li>
+                                    <a href="{{ path('teacher_show', {'name': teacher.canonicalName}) }}">{{ teacher.name }}</a>
+                                </li>
+                            </ul>
+                        </td>
+                        <td>{{ teacher.subject }}</td>
+                        <td>{{ 'lmi.school.common.teacher.room'|trans }}&nbsp;{{ teacher.room.number }}</td>
+                        <td>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <ul class="nav nav-pills">
+                                    <li>
+                                        <a href="{{ path('teacher_edit', {'name': teacher.canonicalName}) }}"><i class="icon icon-pencil"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('teacher_delete', {'name': teacher.canonicalName}) }}" data-action="remove"><i class="icon icon-trash"></i></a>
+                                    </li>
+                                </ul>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <div class="alert alert-info">{{ 'lmi.school.common.no_records'|trans }}</div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <script>
+            $('[data-action="remove"]').click(function(e) {
+                e.preventDefault();
+                var url = $(e.currentTarget).attr('href');
+
+                $.ajax({
+                    url: url,
+                    type: 'DELETE',
+                    success: function(response) {
+                        console.log(response);
+                        if (response == 'OK') {
+                            $(e.currentTarget).parentsUntil('tbody').last().remove();
+                        }
+                    }
+                });
+            });
+        </script>
+    {% endif %}
+{% endblock %}

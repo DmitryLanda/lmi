@@ -1,0 +1,33 @@
+{% extends 'LmiSchoolBundle::base.html.twig' %}
+{% form_theme form 'LmiSchoolBundle::FormTemplate/fields.html.twig' %}
+
+
+{% block content %}
+    <div id="site-page">
+        {% set url = page is defined ? path('page_update', {'slug': page.slug}) : path('page_create') %}
+        <form class="form-horizontal" method="POST" action="{{ url }}" {{ form_enctype(form) }}>
+            <fieldset>
+                <legend>{{ 'lmi.school.common.site_page.add_page_title'|trans }}</legend>
+                {{ form_widget(form) }}
+                <div class="control-group">
+                    <div class="controls">
+                        <button name="page-create" class="btn btn-success">{{ 'lmi.school.common.save_button'|trans }}</button>
+                        <button name="page-cancel" class="btn btn-info">{{ 'lmi.school.common.cancel_button'|trans }}</button>
+                    </div>
+                </div>
+                <div class="hidden">
+                    {{ form_rest(form) }}
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $('[name="page-cancel"]').first().click(function(e) {
+            e.preventDefault();
+            location.href = "{{ path('homepage') }}";
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,32 @@
+page_new:
+    pattern:  /new
+    defaults: { _controller: "LmiSchoolBundle:Content:newPage" }
+    requirements:
+        _method: get
+
+page_create:
+    pattern:  /
+    defaults: { _controller: "LmiSchoolBundle:Content:createPage" }
+    requirements:
+        _method: post
+
+page_edit:
+    pattern:  /{slug}
+    defaults: { _controller: "LmiSchoolBundle:Content:editPage" }
+    requirements:
+        _method: get
+        slug: (.+)
+
+page_update:
+    pattern:  /{slug}
+    defaults: { _controller: "LmiSchoolBundle:Content:updatePage" }
+    requirements:
+        _method: post
+        slug: (.+)
+
+page_remove:
+    pattern:  /{slug}
+    defaults: { _controller: "LmiSchoolBundle:Content:deletePage" }
+    requirements:
+        _method: delete
+        slug: (.+)

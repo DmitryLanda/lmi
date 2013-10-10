@@ -1,0 +1,7 @@
+room:
+    pattern:  /
+    defaults: { _controller: "LmiSchoolBundle:Room:index" }
+
+room_show:
+    pattern:  /{number}/show
+    defaults: { _controller: "LmiSchoolBundle:Room:show" }

@@ -1,0 +1,23 @@
+room_new:
+    pattern:  /new
+    defaults: { _controller: "LmiSchoolBundle:Room:new" }
+
+room_create:
+    pattern:  /
+    defaults: { _controller: "LmiSchoolBundle:Room:create" }
+    requirements: { _method: post }
+
+room_edit:
+    pattern:  /{number}
+    defaults: { _controller: "LmiSchoolBundle:Room:edit" }
+    requirements: { _method: get }
+
+room_update:
+    pattern:  /{number}
+    defaults: { _controller: "LmiSchoolBundle:Room:update" }
+    requirements: { _method: post }
+
+room_delete:
+    pattern:  /{number}
+    defaults: { _controller: "LmiSchoolBundle:Room:delete" }
+    requirements: { _method: delete }

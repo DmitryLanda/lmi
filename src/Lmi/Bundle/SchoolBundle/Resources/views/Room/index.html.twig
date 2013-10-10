@@ -1,0 +1,46 @@
+{% extends 'LmiSchoolBundle::base.html.twig' %}
+
+{% block title %}{{ 'lmi.school.common.room.page_title'|trans }}{% endblock %}
+
+{% block content %}
+    <div id="rooms">
+        <h3 class="text-left">{{ 'lmi.school.common.room.title'|trans }}</h3>
+        {% if is_granted('ROLE_ADMIN') %}
+            <ul class="nav nav-pills">
+                <li><a href="{{ path('room_new') }}">Добавить<i class="icon icon-plus"></i></a></li>
+            </ul>
+        {% endif %}
+
+        <ul class="thumbnails">
+            {% for room in entities %}
+                <li>
+                    <h4>
+                        <span>{{ 'lmi.school.common.room.number'|trans }} {{ room.number }}</span>
+                    </h4>
+                    {% set image = path('image_get', {'id': room.images.first.imageId|default(0), 'size': 'small'}) %}
+                    <img src="{{ image }}" class="thumbnail">
+                    <div class="content">
+                        <p>{{ room.description|markdown|striptags|truncate(100) }}</p>
+                    </div>
+                    <div class="controls">
+                        <a class="btn pull-right" href="{{ path('room_show', {'number': room.number }) }}">
+                            {{ 'lmi.school.common.room.show'|trans }}
+                        </a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <ul class="nav nav-pills">
+                                <li>
+                                    <a href="{{ path('room_edit', {'number': room.number }) }}"><i class="icon icon-pencil"></i></a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('room_delete', {'number': room.number }) }}" data-action="remove"><i class="icon icon-trash"></i></a>
+                                </li>
+                            </ul>
+                        {% endif %}
+                    </div>
+                </li>
+            {% else %}
+                <div class="alert alert-info">{{ 'lmi.school.common.no_records'|trans }}</div>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
