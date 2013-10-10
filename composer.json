@@ -6,6 +6,20 @@
     "autoload": {
         "psr-0": { "": "src/" }
     },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "version": "dev-master",
+                "name": "jquery-collage",
+                "source": {
+                    "url": "https://github.com/ed-lea/jquery-collagePlus.git",
+                    "type": "git",
+                    "reference": "master"
+                }
+            }
+        }
+    ],
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "2.3.*",
@@ -20,7 +34,11 @@
         "sensio/generator-bundle": "2.3.*",
         "incenteev/composer-parameter-handler": "~2.0",
         "twitter/bootstrap": "2.3.2",
-        "knplabs/knp-menu-bundle": "@dev"
+        "knplabs/knp-menu-bundle": "@dev",
+        "kriswallsmith/buzz": "v0.10",
+        "knplabs/knp-markdown-bundle": "1.2.*@dev",
+        "sonata-project/intl-bundle": "2.*",
+        "jquery-collage": "*"
     },
     "scripts": {
         "post-install-cmd": [

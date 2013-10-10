@@ -6,14 +6,14 @@
 {% block content %}
     <div id="news">
         {{ form_errors(form) }}
-        <form class="form-horizontal" method="POST" action="{{ path('news_create') }}">
+        <form class="form-horizontal" method="POST" action="{{ path('news_create') }}" {{ form_enctype(form) }}>
             <fieldset>
                 <legend>{{ 'lmi.school.common.news.add_news_title'|trans }}</legend>
                 {{ form_widget(form) }}
                 <div class="control-group">
                     <div class="controls">
-                        <button name="news-add" class="btn btn-success">{{ 'lmi.school.common.news.add_button'|trans }}</button>
-                        <button name="news-cancel" class="btn btn-danger">{{ 'lmi.school.common.news.cancel_button'|trans }}</button>
+                        <button name="news-add" class="btn btn-success">{{ 'lmi.school.common.add_button'|trans }}</button>
+                        <button name="news-cancel" class="btn btn-danger">{{ 'lmi.school.common.cancel_button'|trans }}</button>
                     </div>
                 </div>
                 <div class="hidden">

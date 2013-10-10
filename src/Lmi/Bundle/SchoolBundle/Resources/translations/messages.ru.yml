@@ -1,7 +1,17 @@
 lmi:
     school:
+        meta:
+            keywords: лми, лицей, саратов, 113, математика, информатика, школа, лицей математики и информатики
+            description: Сайт МАОУ "Лицей математики и информатики"
         common:
             no_results: По вашему запросу ничего не найдено. Попробуйте изменить условия поиска и поискать снова...
+            no_records: В данной категории нет записей
+            not_set: Нет данных
+            add_button: Добавить
+            cancel_button: Отменить
+            save_button: Сохранить
+            date_placeholder: день/месяц/год
+            year_placeholder: год
             news:
                 page_title: Новости, происшествия, события
                 add_news_title: Добавить новость
@@ -14,10 +24,68 @@ lmi:
                 image: Новая картинка
                 author: Автор
                 author_placeholder: Автор новости
-                add_button: Добавить
-                cancel_button: Отменить
                 title: Новости
                 read_more: Читать дальше
-                edit_news_title: Редактировать новость
-                save_button: Сохранить
+                update_news_title: Редактировать новость
                 old_image: Текущая картинка
+                back_to_list: Назад к списку новостей
+            teacher:
+                page_title: Педагогический коллектив
+                add_teacher_title: Добавить преподавателя
+                update_teacher_title: Редактирование преподавателя
+                name: Ф.И.О.
+                name_placeholder: Иванов Иван Иванович
+                subject: Предмет
+                subject_placeholder: русский язык
+                birthday: Дата рождения
+                hide_birthday: Скрывать год рождения
+                category_title: Категория
+                category:
+                    high: Высшая
+                    first: Первая
+                    second: Вторая
+                    empty: Нет
+                    not_specified: не указана
+                stag: Стаж
+                email: Электронная почта
+                email_placeholder: username@example.com
+                education_title: Образование
+                education:
+                    high: Высшее
+                    special: Средне-специальное
+                    full_school: Начальное полное
+                    base_school: Начальное среднее
+                    other: Другое
+                    not_specified: не указано
+                biography: Биография
+                projects: Проекты
+                regards: Награды и достижения
+                contacts: Контакты
+                common_info: Общая информация
+                photo: Фотография
+                photo_placeholder: Выберите фото учителя
+                old_image: Текущее фото
+                back_to_list: Назад к списку учителей
+                room: Кабинет
+            contact:
+                type: Тип
+                type_placeholder: email, skype, телефон...
+                value: Значение
+                value_placeholder: 12345
+            regard:
+                name: Название
+                name_placeholder: Почетная грамота Министрства Образования
+                priority_title: Важность
+                priority:
+                    high: Высокая
+                    medium: Средняя
+                    low: Низкая
+                    empty: Отсутствует (не важно)
+                description: Описание
+                date: Дата получения
+            project:
+                name: Название
+                name_placeholder: Электронное портфолио
+                document: Ссылка на проект
+                document_placeholder: http://disk.yandex.ru/my_file
+                published_at: Дата раработки/публикации

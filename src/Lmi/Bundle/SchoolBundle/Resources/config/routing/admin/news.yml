@@ -3,20 +3,20 @@ news_new:
     defaults: { _controller: "LmiSchoolBundle:News:new" }
 
 news_create:
-    pattern:  /create
+    pattern:  /
     defaults: { _controller: "LmiSchoolBundle:News:create" }
     requirements: { _method: post }
 
 news_edit:
-    pattern:  /{id}/edit
+    pattern:  /{identifier}/edit
     defaults: { _controller: "LmiSchoolBundle:News:edit" }
 
 news_update:
-    pattern:  /{id}/update
+    pattern:  /{identifier}
     defaults: { _controller: "LmiSchoolBundle:News:update" }
     requirements: { _method: post|put }
 
 news_delete:
-    pattern:  /{id}/delete
+    pattern:  /{identifier}
     defaults: { _controller: "LmiSchoolBundle:News:delete" }
-    requirements: { _method: post|delete }
+    requirements: { _method: delete }

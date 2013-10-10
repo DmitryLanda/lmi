@@ -27,8 +27,11 @@ class LmiSchoolExtension extends Extension
         $menu = $ymlParser->parse($config['menu_file']);
         $container->setParameter('lmi_school.parameter.menu', $menu);
 
+        $container->setParameter('yandex', $config['yandex']);
+
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
         $loader->load('twig.xml');
+        $loader->load('forms.xml');
     }
 }

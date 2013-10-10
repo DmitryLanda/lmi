@@ -23,6 +23,23 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('menu_file')->end()
+                ->scalarNode('default_image')->end()
+                ->arrayNode('yandex')
+                    ->children()
+                        ->arrayNode('fotki')
+                            ->children()
+                                ->scalarNode('image_url_pattern')->end()
+                                ->scalarNode('album_url_pattern')->end()
+                                ->scalarNode('format')->end()
+                                ->scalarNode('default_album')->end()
+                                ->arrayNode('album_map')
+                                    ->prototype('scalar')
+//                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
             ->end()
         ;
 

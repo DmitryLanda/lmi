@@ -4,36 +4,77 @@
 
 {% block content %}
     <div id="news">
-        <h3>{{ 'lmi.school.common.news.title'|trans }}</h3>
-        <a href="{{ path('news_new') }}">
-            Create a new entry
-        </a>
+        <h3 class="text-left">{{ 'lmi.school.common.news.title'|trans }}</h3>
+        {% if is_granted('ROLE_ADMIN') %}
+            <ul class="nav nav-pills">
+                <li><a href="{{ path('news_new') }}">Добавить<i class="icon icon-plus"></i></a></li>
+            </ul>
+        {% endif %}
 
         <ul class="thumbnails">
-            {% for entity in entities %}
-                <li class="span4">
-                    <div class="thumbnail">
-                        <div class="caption">
-                            <h4>
-                                <span class="pull-left">{{ entity.showDate|date('D M, Y') }}</span>
-                                <span class="pull-right">{{ entity.title }}</span>
-                            </h4>
-                        </div>
-                        <img src="{{ asset('bundles/lmischool/images/no-image-available.png') }}">
-                        <div class="caption">
-                            <p>{{ entity.content|truncate(30)|striptags }}</p>
-                            <p>
-                                <a class="btn btn-primary" href="{{ path('news_show', { 'id': entity.id }) }}">
-                                    {{ 'lmi.school.common.news.read_more'|trans }}
-                                </a>
-                                <a class="btn" href="{{ path('news_edit', { 'id': entity.id }) }}">Править</a>
-                            </p>
-                        </div>
+            {% for news in newsList %}
+                <li>
+                    <h4>
+                        <span class="muted">{{ news.showDate|date('d.m.Y') }}</span>
+                        <span>{{ news.title }}</span>
+                    </h4>
+                    {% set image = path('image_get', {'id': news.image.imageId|default(0), 'size': 'small'}) %}
+                    <img src="{{ image }}" class="thumbnail">
+                    <div class="content">
+                        <p>{{ news.content|markdown|striptags|truncate(100) }}</p>
+                    </div>
+                    <div class="controls">
+                        {% if news.content|length > 100 %}
+                            <a class="btn pull-right" href="{{ path('news_show', {'identifier': news.identifier }) }}">
+                                {{ 'lmi.school.common.news.read_more'|trans }}
+                            </a>
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <ul class="nav nav-pills">
+                                <li>
+                                    <a href="{{ path('news_edit', {'identifier': news.identifier }) }}"><i class="icon icon-pencil"></i></a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('news_delete', {'identifier': news.identifier }) }}" data-action="remove"><i class="icon icon-trash"></i></a>
+                                </li>
+                            </ul>
+                        {% endif %}
                     </div>
                 </li>
             {% else %}
-                <div class="alert alert-info">{{ 'lmi.school.common.no_results'|trans }}</div>
+                <div class="alert alert-info">{{ 'lmi.school.common.no_records'|trans }}</div>
             {% endfor %}
         </ul>
     </div>
+{% endblock %}
+
+{% block javascript %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <script>
+            $('[data-action="remove"]').click(function(e) {
+                e.preventDefault();
+                var url = $(e.currentTarget).attr('href');
+
+                $.ajax({
+                    url: url,
+                    type: 'DELETE',
+                    success: function(response) {
+                        console.log(response);
+                        if (response == 'OK') {
+                            $(e.currentTarget).parentsUntil('ul.thumbnails').last().remove();
+                        }
+                    }
+                });
+            });
+        </script>
+    {% endif %}
+
+    <script>
+        $('#news ul.thumbnails li').click(function(e) {
+//            e.preventDefault();
+//            e.stopPropagation();
+            var url = $(e.currentTarget).attr('data-link');
+            location.href = url;
+        });
+    </script>
 {% endblock %}

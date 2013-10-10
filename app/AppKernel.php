@@ -17,7 +17,9 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Lmi\Bundle\SchoolBundle\LmiSchoolBundle(),
-            new Knp\Bundle\MenuBundle\KnpMenuBundle()
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new Knp\Bundle\MarkdownBundle\KnpMarkdownBundle(),
+            new Sonata\IntlBundle\SonataIntlBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

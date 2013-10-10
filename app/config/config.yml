@@ -24,6 +24,9 @@ framework:
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
+    form:
+        resources:
+            - 'LmiSchoolBundle:Form:fields.html.twig'
 
 # Assetic Configuration
 assetic:
@@ -72,3 +75,11 @@ knp_menu:
 
 lmi_school:
     menu_file: %kernel.root_dir%/../web/bundles/lmischool/files/left-menu.yml
+    default_image: bundles/lmischool/images/no-image-available.png
+    yandex:
+        fotki:
+            image_url_pattern: http://api-fotki.yandex.ru/api/users/lmi-images/photo/%d/
+            album_url_pattern: http://api-fotki.yandex.ru/api/users/lmi-images/album/%d/photos/
+            format: json
+            album_map: {teachers: 367805, news: 369061}
+            default_album: 367218

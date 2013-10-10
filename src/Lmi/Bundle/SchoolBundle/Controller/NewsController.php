@@ -2,11 +2,18 @@
 
 namespace Lmi\Bundle\SchoolBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+use Lmi\Bundle\SchoolBundle\Form\Map\NewsMap;
+use Lmi\Bundle\SchoolBundle\Service\ImageService;
+use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Lmi\Bundle\SchoolBundle\Entity\News;
 use Lmi\Bundle\SchoolBundle\Form\NewsType;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
  * News controller.
@@ -21,165 +28,212 @@ class NewsController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('LmiSchoolBundle:News')->findAll();
+        //todo add pagination
+        $newsList = $this->getNewsRepository()->findBy(array(), array('showDate' => 'DESC', 'lastUpdate' => 'DESC'));
 
         return $this->render('LmiSchoolBundle:News:index.html.twig', array(
-            'entities' => $entities,
+            'newsList' => $newsList
         ));
     }
     /**
      * Creates a new News entity.
-     *
      */
     public function createAction(Request $request)
     {
-        $entity  = new News();
-        $form = $this->createForm(new NewsType(), $entity);
-        $form->submit($request);
+        $news  = new News();
+        $form = $this->createNewsForm($news);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+            $this->updateNewsWithClientData($form, $news);
+            $this->saveNews($news);
 
-            return $this->redirect($this->generateUrl('news_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('news_show', array('identifier' => $news->getIdentifier())));
         }
 
         return $this->render('LmiSchoolBundle:News:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+            'news' => $news,
+            'form' => $form->createView(),
         ));
     }
 
     /**
      * Displays a form to create a new News entity.
-     *
      */
     public function newAction()
     {
-        $entity = new News();
-        $form   = $this->createForm(new NewsType(), $entity);
+        $news = new News();
+        $form = $this->createNewsForm($news);
 
         return $this->render('LmiSchoolBundle:News:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+            'news' => $news,
+            'form' => $form->createView(),
         ));
     }
 
     /**
      * Finds and displays a News entity.
-     *
      */
-    public function showAction($id)
+    public function showAction($identifier)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('LmiSchoolBundle:News')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find News entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('LmiSchoolBundle:News:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
-    }
-
-    /**
-     * Displays a form to edit an existing News entity.
-     *
-     */
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $news = $em->getRepository('LmiSchoolBundle:News')->find($id);
-
+        $news = $this->findNewsByIdentifier($identifier);
         if (!$news) {
             throw $this->createNotFoundException('Unable to find News entity.');
         }
 
-        $editForm = $this->createForm(new NewsType(), $news);
-        $deleteForm = $this->createDeleteForm($id);
+        return $this->render('LmiSchoolBundle:News:show.html.twig', array(
+            'news' => $news
+        ));
+    }
+
+    /**
+     * Displays a form to edit an existing News entity.
+     */
+    public function editAction($identifier)
+    {
+        $news = $this->findNewsByIdentifier($identifier);
+        if (!$news) {
+            throw $this->createNotFoundException('Unable to find News entity.');
+        }
+
+        $editForm = $this->createNewsForm($news);
 
         return $this->render('LmiSchoolBundle:News:edit.html.twig', array(
-            'news'      => $news,
-            'form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'news' => $news,
+            'form' => $editForm->createView(),
         ));
     }
 
     /**
      * Edits an existing News entity.
-     *
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request, $identifier)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('LmiSchoolBundle:News')->find($id);
-
-        if (!$entity) {
+        $news = $this->findNewsByIdentifier($identifier);
+        if (!$news) {
             throw $this->createNotFoundException('Unable to find News entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new NewsType(), $entity);
-        $editForm->submit($request);
+        $editForm = $this->createNewsForm($news);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $em->persist($entity);
-            $em->flush();
+            $this->updateNewsWithClientData($editForm, $news);
+            $this->saveNews($news);
 
-            return $this->redirect($this->generateUrl('news', array('id' => $id)));
+            return $this->redirect($this->generateUrl('news_show', array('identifier' => $news->getIdentifier())));
         }
 
         return $this->render('LmiSchoolBundle:News:edit.html.twig', array(
-            'news'      => $entity,
-            'form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'news' => $news,
+            'form' => $editForm->createView()
         ));
     }
     /**
      * Deletes a News entity.
-     *
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($identifier)
     {
-        $form = $this->createDeleteForm($id);
-        $form->submit($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('LmiSchoolBundle:News')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find News entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        $news = $this->findNewsByIdentifier($identifier);
+        if (!$news) {
+            throw $this->createNotFoundException('Unable to find News entity.');
         }
 
-        return $this->redirect($this->generateUrl('news'));
+        $this->getEntityManager()->remove($news);
+        $this->getEntityManager()->flush();
+
+        return new Response('OK');
     }
 
     /**
-     * Creates a form to delete a News entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
+     * @return EntityManager
      */
-    private function createDeleteForm($id)
+    private function getEntityManager()
     {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
-            ->getForm()
-        ;
+        $em = $this->getDoctrine()->getManager();
+        return $em;
+    }
+
+    /**
+     * @return EntityRepository
+     */
+    private function getNewsRepository()
+    {
+        return $this->getEntityManager()->getRepository('LmiSchoolBundle:News');
+    }
+
+    /**
+     * @param News $news
+     * @return Form
+     */
+    private function createNewsForm(News $news)
+    {
+        $map = new NewsMap();
+        $map->fillFromModel($news);
+
+        return $this->createForm(new NewsType(), $map);
+    }
+
+    /**
+     * @param Form $form
+     * @param News $news
+     */
+    private function updateNewsWithClientData(Form $form, News $news)
+    {
+        /** @var NewsMap $newsMap  */
+        $newsMap = $form->getData();
+        $newsMap->updateModel($news);
+        $this->updateAuthor($form, $news);
+        $this->updateImage($form, $news);
+    }
+
+    /**
+     * @param Form $form
+     * @param News $news
+     */
+    private function updateImage(Form $form, News $news)
+    {
+        if ($form->getData()->getImage()) {
+            /** @var ImageService $imageService */
+            $imageService = $this->get('lmi_school.service.image');
+            /** @var UploadedFile $file */
+            $file = $form->getData()->getImage();
+            $image = $imageService->save($file, 'news');
+            $news->setImage($image);
+        }
+    }
+
+    /**
+     * @param Form $form
+     * @param News $news
+     */
+    private function updateAuthor(Form $form, News $news)
+    {
+        if (!$form->getData()->getAuthor()) {
+            /** @var SecurityContextInterface $securityContext  */
+            $securityContext = $this->get('security.context');
+            $author = $securityContext->getToken()->getUsername();
+            $news->setAuthor($author);
+        } else {
+            $news->setAuthor($form->getData()->getAuthor());
+        }
+    }
+
+    /**
+     * @param News $news
+     */
+    private function saveNews(News $news)
+    {
+        $this->getEntityManager()->persist($news);
+        $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @param string $identifier
+     * @return News
+     */
+    private function findNewsByIdentifier($identifier)
+    {
+        return $this->getNewsRepository()->findOneByIdentifier($identifier);
     }
 }

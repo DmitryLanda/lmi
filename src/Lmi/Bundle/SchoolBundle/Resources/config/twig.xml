@@ -19,12 +19,19 @@
     -->
 
     <parameters>
-        <parameter key="twig.extension.text.class">Twig_Extensions_Extension_Text</parameter>
+        <parameter key="twig.extension.lmi_school_extension.class">Lmi\Bundle\SchoolBundle\Twig\LmiSchoolExtension</parameter>
     </parameters>
 
     <services>
-        <service id="twig.extension.text" class="%twig.extension.text.class%">
+        <service id="lmi_school.twig.lmi_school_extension" class="%twig.extension.lmi_school_extension.class%">
+            <argument>%education_map%</argument>
+            <argument>%category_map%</argument>
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="twig.extension.text" class="Twig_Extensions_Extension_Text">
             <tag name="twig.extension" />
         </service>
     </services>
+
 </container>

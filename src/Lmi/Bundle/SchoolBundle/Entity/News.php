@@ -4,12 +4,14 @@ namespace Lmi\Bundle\SchoolBundle\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Transliterator;
 
 /**
  * News
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class News
 {
@@ -65,17 +67,25 @@ class News
     private $author;
 
     /**
-     * @var string
+     * @var Image
      *
-     * @ORM\Column(name="image", type="string", length=255, nullable=true)
+     * @ORM\ManyToOne(targetEntity="Image")
+     * @ORM\JoinColumn(name="image_id", referencedColumnName="id", nullable=true)
      */
     private $image;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="identifier", type="string", length=500)
+     */
+    private $identifier;
 
     public function __construct()
     {
         $date = new DateTime();
         $this->setCreated($date)
-            ->setLastUpdate($date)
+            ->refreshLastUpdateDate($date)
             ->setShowDate($date);
     }
 
@@ -144,17 +154,6 @@ class News
     }
 
     /**
-     * @param \DateTime $lastUpdate
-     * @return News
-     */
-    public function setLastUpdate($lastUpdate)
-    {
-        $this->lastUpdate = $lastUpdate;
-    
-        return $this;
-    }
-
-    /**
      * @return DateTime
      */
     public function getLastUpdate()
@@ -201,10 +200,10 @@ class News
     }
 
     /**
-     * @param string $image
+     * @param Image|null $image
      * @return News
      */
-    public function setImage($image)
+    public function setImage(Image $image = null)
     {
         $this->image = $image;
 
@@ -212,10 +211,52 @@ class News
     }
 
     /**
-     * @return string
+     * @return Image|null
      */
     public function getImage()
     {
         return $this->image;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     * @ORM\PrePersist
+     */
+    public function fillIdentifier()
+    {
+        $identifier = $this->getCreated()->format('m-d-Y') . '-' . $this->getTitle();
+        $transliterator = Transliterator::create('Cyrillic-Latin');
+        $this->identifier = str_replace(' ', '-', $transliterator->transliterate($identifier));
+    }
+
+    /**
+     * @param string $identifier
+     * @return News
+     */
+    public function setIdentifier($identifier)
+    {
+        $this->identifier = $identifier;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIdentifier()
+    {
+        return $this->identifier;
+    }
+
+    /**
+     * @ORM\PrePersist
+     *
+     * @return News
+     */
+    public function refreshLastUpdateDate()
+    {
+        $this->lastUpdate = new DateTime();
+
+        return $this;
     }
 }

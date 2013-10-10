@@ -17,4 +17,36 @@
         </service>
     </services>
     -->
+
+    <parameters>
+        <parameter key="lmi_school.menu_builder.class">Lmi\Bundle\SchoolBundle\Menu\Builder</parameter>
+        <parameter key="lmi_school.menu_item.class">Knp\Menu\MenuItem</parameter>
+        <parameter key="lmi_school.service.image.class">Lmi\Bundle\SchoolBundle\Service\ImageService</parameter>
+    </parameters>
+
+    <services>
+        <service id="lmi_school.menu_builder" class="%lmi_school.menu_builder.class%">
+            <argument type="service" id="knp_menu.factory" />
+            <argument>%lmi_school.parameter.menu%</argument>
+        </service>
+
+        <service id="lmi_school.menu.left" class="%lmi_school.menu_item.class%" factory-service="lmi_school.menu_builder"
+                 factory-method="createLeftMenu" scope="request">
+            <tag name="knp_menu.menu" alias="left_menu" />
+            <argument type="service" id="request" />
+        </service>
+
+        <service id="lmi_school.menu.breadcrumbs" class="%lmi_school.menu_item.class%" factory-service="lmi_school.menu_builder"
+                 factory-method="createBreadcrumbMenu" scope="request">
+            <tag name="knp_menu.menu" alias="breadcrumbs_menu" />
+            <argument type="service" id="lmi_school.menu.left" />
+            <argument type="service" id="request" />
+        </service>
+
+        <service id="lmi_school.service.image" class="%lmi_school.service.image.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="logger" />
+            <argument>%yandex%</argument>
+        </service>
+    </services>
 </container>

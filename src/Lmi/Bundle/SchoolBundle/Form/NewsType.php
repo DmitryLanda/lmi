@@ -35,12 +35,13 @@ class NewsType extends AbstractType
                     'placeholder' => 'lmi.school.common.news.content_placeholder'
                 )
             ))
-            ->add('image', 'file', array(
+            ->add('image', 'ya_image_loader', array(
                 'label' => 'lmi.school.common.news.image',
                 'required' => false,
             ))
             ->add('author', 'text', array(
                 'label' => 'lmi.school.common.news.author',
+                'required' => false,
                 'attr' => array(
                     'placeholder' => 'lmi.school.common.news.author_placeholder'
                 )
@@ -53,7 +54,7 @@ class NewsType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Lmi\Bundle\SchoolBundle\Entity\News'
+            'data_class' => 'Lmi\Bundle\SchoolBundle\Form\Map\NewsMap'
         ));
     }
 
@@ -62,6 +63,6 @@ class NewsType extends AbstractType
      */
     public function getName()
     {
-        return 'lmi_bundle_schoolbundle_newstype';
+        return 'lmi_school_news_form';
     }
 }

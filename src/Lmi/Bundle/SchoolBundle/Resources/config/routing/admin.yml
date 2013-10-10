@@ -1,3 +1,15 @@
-lmi_school_news:
+lmi_school_admin_news:
     resource: "@LmiSchoolBundle/Resources/config/routing/admin/news.yml"
     prefix:   /news
+
+lmi_school_admin_teachers:
+    resource: "@LmiSchoolBundle/Resources/config/routing/admin/teacher.yml"
+    prefix:   /teachers
+
+lmi_school_admin_images:
+    resource: "@LmiSchoolBundle/Resources/config/routing/admin/images.yml"
+    prefix:   /images
+
+lmi_school_admin_pages:
+    resource: "@LmiSchoolBundle/Resources/config/routing/admin/pages.yml"
+    prefix:   /pages
