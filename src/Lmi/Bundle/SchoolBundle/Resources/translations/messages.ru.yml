@@ -12,6 +12,10 @@ lmi:
             save_button: Сохранить
             date_placeholder: день/месяц/год
             year_placeholder: год
+            add: Добавить
+            edit: Изменить
+            delete: Удалить
+            show_all: Показать все
             news:
                 page_title: Новости, происшествия, события
                 add_news_title: Добавить новость
@@ -94,3 +98,5 @@ lmi:
                 title: Школьные кабинеты
                 number: Кабинет №
                 show: Посмотреть
+                responsible: Ответственный за кабинет
+                fire_safety_responsible: Ответственный за пожарную безопасность

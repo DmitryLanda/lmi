@@ -12,7 +12,7 @@
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script></head>
 <body>
     <div id="header">
-        <img src="http://lmi-school.ru/image/winter_header.jpg">
+        <img src="{{ asset('bundles/lmischool/images/header.jpg') }}">
     </div>
     <div id="content">
         {% include "LmiSchoolBundle::navbar.html.twig" %}
@@ -33,9 +33,9 @@
     </footer>
     {% block javascript %}{% endblock %}
 
-    {% if is_granted('ROLE_ADMIN') %}
-        <script src="http://masonry.desandro.com/masonry.pkgd.js"></script>
-    {% endif %}
+    {#{% if is_granted('ROLE_ADMIN') %}#}
+        {#<script src="http://masonry.desandro.com/masonry.pkgd.js"></script>#}
+    {#{% endif %}#}
     <script>
         $(document).ready(function() {
             $('.persist-header').each(function(i) {

@@ -35,7 +35,7 @@ class ContentController extends Controller
             ->getRepository('LmiSchoolBundle:SitePage')
             ->findOneBy(array('slug' => $slug));
         if (!$page) {
-            throw $this->createNotFoundException('Нет такого раздела');
+            return $this->redirect($this->generateUrl('page_new'));
         }
 
         return array(

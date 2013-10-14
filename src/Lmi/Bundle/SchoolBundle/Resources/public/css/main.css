@@ -74,3 +74,32 @@
 #news .controls {
     margin-top: 10px;
 }
+
+.text-bold {
+    font-weight: bold;
+}
+
+img.thumb {
+    max-width: 150px;
+    max-height: 150px;
+}
+
+img.small {
+    max-width: 500px;
+    max-height: 500px;
+}
+
+img.medium {
+    max-width: 800px;
+    max-height: 800px;
+}
+
+.thumbnail {
+    margin-bottom: 10px;
+}
+
+div.divider {
+    background-color: #E5E5E5;
+    height: 1px;
+    border-bottom: 1px solid #FFFFFF;
+}

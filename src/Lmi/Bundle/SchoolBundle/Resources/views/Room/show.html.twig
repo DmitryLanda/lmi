@@ -1,48 +1,53 @@
-{% extends '::base.html.twig' %}
+{% extends 'LmiSchoolBundle::base.html.twig' %}
 
-{% block body -%}
-    <h1>Room</h1>
+{% block title %}{{ 'lmi.school.common.room.page_title'|trans }}{% endblock %}
 
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Number</th>
-                <td>{{ entity.number }}</td>
-            </tr>
-            <tr>
-                <th>Images</th>
-                <td>{{ entity.images }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ entity.description }}</td>
-            </tr>
-            <tr>
-                <th>Responsible</th>
-                <td>{{ entity.responsible }}</td>
-            </tr>
-            <tr>
-                <th>Firesafetyresponsible</th>
-                <td>{{ entity.fireSafetyResponsible }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('room') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('room_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+{% block content %}
+    <div id="room">
+        {% set room = entity %}
+        <h3 class="text-left">{{ 'lmi.school.common.room.number'|trans }} <span>{{ room.number }}</span></h3>
+        <div class="clearfix">
+            <div class="pull-left">
+                {% set image = path('image_get', {'id': room.images.first.imageId|default(0), 'size': 'small'}) %}
+                <img src="{{ image }}" class="thumbnail small">
+            </div>
+            <div class="content">
+                <p>{{ room.description|markdown }}</p>
+            </div>
+        </div>
+        <div>
+            <div>
+                <span class="text-bold">{{ 'lmi.school.common.room.responsible'|trans }}</span>
+                <span>
+                    <a href="{{ path('teacher_show', {'name': room.responsible.canonicalName}) }}">{{ room.responsible.name }}</a>
+                </span>
+            </div>
+            <div>
+                <span class="text-bold">{{ 'lmi.school.common.room.fire_safety_responsible'|trans }}</span>
+                <span>
+                    <a href="{{ path('teacher_show', {'name': room.fireSafetyResponsible.canonicalName}) }}">{{ room.fireSafetyResponsible.name }}</a>
+                </span>
+            </div>
+        </div>
+        <div class="divider">&nbsp;</div>
+        <ul class="nav nav-pills">
+            {% if is_granted('ROLE_ADMIN') %}
+                <li>
+                    <a href="{{ path('room_edit', {'number': room.number }) }}">
+                        {{ 'lmi.school.common.edit'|trans }} <i class="icon icon-pencil"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('room_delete', {'number': room.number }) }}" data-action="remove">
+                        {{ 'lmi.school.common.delete'|trans }} <i class="icon icon-trash"></i>
+                    </a>
+                </li>
+            {% endif %}
+            <li>
+                <a href="{{ path('rooms') }}">
+                    {{ 'lmi.school.common.show_all'|trans }} <i class="icon icon-list"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
 {% endblock %}

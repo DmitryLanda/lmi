@@ -1,4 +1,4 @@
-room:
+rooms:
     pattern:  /
     defaults: { _controller: "LmiSchoolBundle:Room:index" }
 
