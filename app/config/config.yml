@@ -17,7 +17,8 @@ framework:
         #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
     trusted_proxies: ~
-    session:         ~
+    session:
+        save_path: /tmp
     fragments:       ~
 
 # Twig Configuration
@@ -74,7 +75,7 @@ knp_menu:
     default_renderer: twig # The renderer to use, list is also available by default
 
 lmi_school:
-    menu_file: %kernel.root_dir%/../web/bundles/lmischool/files/left-menu.yml
+    menu_file: %kernel.root_dir%/../public_html/bundles/lmischool/files/left-menu.yml
     default_image: bundles/lmischool/images/no-image-available.png
     yandex:
         fotki:

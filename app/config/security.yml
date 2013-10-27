@@ -8,12 +8,14 @@ security:
             memory:
                 users:
                     ##DontLoseYourPassword
-                    owner: {password: 5uFFG7p/YiGsRK00JPLvNVQrF9oSTCvRLI2OqSUDUkVk1KHow4rBIaVV3K8aAkW8btMBcGugfWmPuwJl08VQcA==, roles: [ 'ROLE_ADMIN' ] }
+#                    owner: {password: 5uFFG7p/YiGsRK00JPLvNVQrF9oSTCvRLI2OqSUDUkVk1KHow4rBIaVV3K8aAkW8btMBcGugfWmPuwJl08VQcA==, roles: [ 'ROLE_ADMIN' ] }
+                    testuser: {password: testpwd, roles: ['ROLE_ADMIN']}
+
     encoders:
-            Symfony\Component\Security\Core\User\User:
-                algorithm: sha512
-                iterations: 1
-                encode_as_base64: true
+            Symfony\Component\Security\Core\User\User: plaintext
+#                algorithm: sha512
+#                iterations: 1
+#                encode_as_base64: true
 
     firewalls:
         dev:
