@@ -1,3 +1,7 @@
+body {
+    max-width: 1024px;
+}
+
 .floating-header {
     position: fixed;
     top: 0;

@@ -47,7 +47,7 @@
                         <dd>{{ teacher.stag|default(defaultElement)|raw }}</dd>
 
                         <dt>{{ 'lmi.school.common.teacher.room'|trans }}</dt>
-                        <dd>{{ teacher.room|default(defaultElement)|raw }}</dd>
+                        <dd>{{ teacher.room.number|default(defaultElement)|raw }}</dd>
 
                         <dt>{{ 'lmi.school.common.teacher.contacts'|trans }}</dt>
                         <dd>

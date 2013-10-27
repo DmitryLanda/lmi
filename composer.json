@@ -24,7 +24,8 @@
         "knplabs/knp-menu-bundle": "@dev",
         "kriswallsmith/buzz": "v0.10",
         "knplabs/knp-markdown-bundle": "1.2.*@dev",
-        "sonata-project/intl-bundle": "2.*"
+        "sonata-project/intl-bundle": "2.*",
+        "leafo/lessphp": ">=v0.4.0"
     },
     "scripts": {
         "post-install-cmd": [

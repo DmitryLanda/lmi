@@ -6,10 +6,27 @@
     <meta name="description" content="{{ description|default('lmi.school.meta.description'|trans) }}">
     <title>{% block title %}{% endblock %}</title>
     {% block stylesheet %}{% endblock %}
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
-    <link href="{{ asset('bundles/lmischool/css/main.css') }}" rel="stylesheet">
+
+    {% stylesheets
+        '@LmiSchoolBundle/Resources/public/less/main.less'
+        '@LmiSchoolBundle/Resources/public/less/customization.less'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}">
+    {% endstylesheets %}
+
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script></head>
+
+    {% javascripts
+        '../vendor/twitter/bootstrap/js/bootstrap-tooltip.js'
+        '../vendor/twitter/bootstrap/js/bootstrap-popover.js'
+        '../vendor/twitter/bootstrap/js/bootstrap-alert.js'
+        '../vendor/twitter/bootstrap/js/bootstrap-dropdown.js'
+        '../vendor/twitter/bootstrap/js/bootstrap-modal.js'
+        '../vendor/twitter/bootstrap/js/bootstrap-tab.js'
+    %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+</head>
 <body>
     <div id="header">
         <img src="{{ asset('bundles/lmischool/images/header.jpg') }}">
@@ -33,9 +50,6 @@
     </footer>
     {% block javascript %}{% endblock %}
 
-    {#{% if is_granted('ROLE_ADMIN') %}#}
-        {#<script src="http://masonry.desandro.com/masonry.pkgd.js"></script>#}
-    {#{% endif %}#}
     <script>
         $(document).ready(function() {
             $('.persist-header').each(function(i) {
