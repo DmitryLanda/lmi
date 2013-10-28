@@ -42,6 +42,13 @@
             {% else %}
                 <div class="alert alert-info">{{ 'lmi.school.common.no_records'|trans }}</div>
             {% endfor %}
+            {% if newsList %}
+                <li>
+                    <div class="navigation">
+                        {{ knp_pagination_render(newsList) }}
+                    </div>
+                </li>
+            {% endif %}
         </ul>
     </div>
 {% endblock %}
@@ -66,13 +73,4 @@
             });
         </script>
     {% endif %}
-
-    <script>
-        $('#news ul.thumbnails li').click(function(e) {
-//            e.preventDefault();
-//            e.stopPropagation();
-            var url = $(e.currentTarget).attr('data-link');
-            location.href = url;
-        });
-    </script>
 {% endblock %}

@@ -12,5 +12,20 @@
         <service id="ya_image_loader" class="Lmi\Bundle\SchoolBundle\Form\Type\YaImageLoaderType">
             <tag name="form.type" alias="ya_image_loader" />
         </service>
+
+        <service id="lmi_subjects" class="Lmi\Bundle\SchoolBundle\Form\Type\SubjectChoiceType">
+            <argument>%subjects%</argument>
+            <tag name="form.type" alias="lmi_subjects" />
+        </service>
+
+        <service id="lmi_education_choices" class="Lmi\Bundle\SchoolBundle\Form\Type\EducationChoiceType">
+            <argument>%education_map%</argument>
+            <tag name="form.type" alias="lmi_education_choices" />
+        </service>
+
+        <service id="lmi_category_choices" class="Lmi\Bundle\SchoolBundle\Form\Type\CategoryChoiceType">
+            <argument>%category_map%</argument>
+            <tag name="form.type" alias="lmi_category_choices" />
+        </service>
     </services>
 </container>

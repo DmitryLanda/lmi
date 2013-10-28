@@ -19,7 +19,8 @@ class AppKernel extends Kernel
             new Lmi\Bundle\SchoolBundle\LmiSchoolBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Knp\Bundle\MarkdownBundle\KnpMarkdownBundle(),
-            new Sonata\IntlBundle\SonataIntlBundle()
+            new Sonata\IntlBundle\SonataIntlBundle(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

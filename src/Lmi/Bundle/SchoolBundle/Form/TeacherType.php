@@ -24,16 +24,18 @@ class TeacherType extends AbstractType
                     'placeholder' => 'lmi.school.common.teacher.name_placeholder'
                 )
             ))
-            ->add('subject', 'text', array(
+            ->add('subject', 'lmi_subjects', array(
                 'label' => 'lmi.school.common.teacher.subject',
                 'attr' => array(
                     'placeholder' => 'lmi.school.common.teacher.subject_placeholder'
                 ),
                 'required' => false,
             ))
-            ->add('room', 'number', array(
+            ->add('room', 'entity', array(
                 'label' => 'lmi.school.common.teacher.room',
                 'required' => false,
+                'class' => 'LmiSchoolBundle:Room',
+                'property' => 'number'
             ))
             ->add('birthday', 'date', array(
                 'label' => 'lmi.school.common.teacher.birthday',
@@ -48,14 +50,8 @@ class TeacherType extends AbstractType
                 'label' => 'lmi.school.common.teacher.hide_birthday',
                 'required' => false
             ))
-            ->add('category', 'choice', array(
+            ->add('category', 'lmi_category_choices', array(
                 'label' => 'lmi.school.common.teacher.category_title',
-                'choices' => array(
-                    0 => 'lmi.school.common.teacher.category.high',
-                    1 => 'lmi.school.common.teacher.category.first',
-                    2 => 'lmi.school.common.teacher.category.second',
-                    3 => 'lmi.school.common.teacher.category.empty'
-                )
             ))
             ->add('stag', 'number', array(
                 'label' => 'lmi.school.common.teacher.stag',
@@ -76,15 +72,8 @@ class TeacherType extends AbstractType
                     'placeholder' => 'lmi.school.common.teacher.email_placeholder'
                 )
             ))
-            ->add('education', 'choice', array(
-                'label' => 'lmi.school.common.teacher.education_title',
-                'choices' => array(
-                    0 => 'lmi.school.common.teacher.education.high',
-                    1 => 'lmi.school.common.teacher.education.special',
-                    2 => 'lmi.school.common.teacher.education.full_school',
-                    3 => 'lmi.school.common.teacher.education.base_school',
-                    4 => 'lmi.school.common.teacher.education.other',
-                )
+            ->add('education', 'lmi_education_choices', array(
+                'label' => 'lmi.school.common.teacher.education_title'
             ))
             ->add('biography', 'textarea', array(
                 'label' => 'lmi.school.common.teacher.biography',

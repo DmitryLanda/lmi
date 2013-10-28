@@ -16,7 +16,7 @@ class RoomType extends AbstractType
     {
         $builder
             ->add('number')
-            ->add('images')
+            ->add('thumbnail', 'ya_image')
             ->add('description')
             ->add('responsible')
             ->add('fireSafetyResponsible')

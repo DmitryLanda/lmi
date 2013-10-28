@@ -1,0 +1,25 @@
+{% if pageCount > 1 %}
+    <div class="pager">
+        <ul>
+            {% if previous is defined %}
+                <li class="previous">
+                    <a href="{{ path(route, query|merge({(pageParameterName): previous})) }}">&larr; Предыдущие</a>
+                </li>
+            {% else %}
+                <li class="previous disabled">
+                    <a href="#">&larr; Предыдущие</a>
+                </li>
+            {% endif %}
+
+            {% if next is defined %}
+                <li class="next">
+                    <a href="{{ path(route, query|merge({(pageParameterName): next})) }}">Следующие &rarr;</a>
+                </li>
+            {% else %}
+                <li class="next disabled">
+                    <a href="#">Следующие &rarr;</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+{% endif %}

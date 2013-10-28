@@ -71,6 +71,7 @@ lmi:
                 old_image: Текущее фото
                 back_to_list: Назад к списку учителей
                 room: Кабинет
+                photos: Фотографии
             contact:
                 type: Тип
                 type_placeholder: email, skype, телефон...

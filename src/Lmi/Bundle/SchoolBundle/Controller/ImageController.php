@@ -26,6 +26,15 @@ class ImageController extends Controller
 {
     public function getAction($id, $size)
     {
+        $response = new Response();
+        $response->setETag(md5($id . md5($size)));
+        $response->setPublic();
+        if ($response->isNotModified($this->getRequest())) {
+            $response->setNotModified();
+
+            return $response;
+        }
+
         /** @var $image Image */
         $image = $this->get('lmi_school.service.image')->get($id);
 
@@ -50,11 +59,15 @@ class ImageController extends Controller
                 break;
         }
 
-        return new StreamedResponse(function() use ($imagePath) {
+        $response = new StreamedResponse(function() use ($imagePath) {
                 print file_get_contents($imagePath);
             },
             200,
             array('Content-Type' => 'image/png'));
+        $response->setPublic()
+            ->setETag(md5($id . md5($size)));
+
+        return $response;
     }
 
     /**
@@ -82,7 +95,7 @@ class ImageController extends Controller
             /** @var UploadedFile $file  */
             $file = $form->get('file')->getData();
 
-            print '<pre>'; var_dump($imageService->save($file)); print '</pre>'; die();
+            print '<pre>'; var_dump($imageService->save($file, '')); print '</pre>'; die();
         }
 
         return new Response('smth goes wrong');

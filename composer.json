@@ -25,7 +25,8 @@
         "kriswallsmith/buzz": "v0.10",
         "knplabs/knp-markdown-bundle": "1.2.*@dev",
         "sonata-project/intl-bundle": "2.*",
-        "leafo/lessphp": ">=v0.4.0"
+        "leafo/lessphp": ">=v0.4.0",
+        "knplabs/knp-paginator-bundle": ">=2.3.2"
     },
     "scripts": {
         "post-install-cmd": [

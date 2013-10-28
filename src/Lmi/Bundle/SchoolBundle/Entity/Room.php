@@ -31,10 +31,9 @@ class Room
     /**
      * @var Image
      *
-     * @ORM\OneToOne(targetEntity="Image", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="images", referencedColumnName="id", nullable=true)
-     */
-    private $images;
+     * @ORM\OneToOne(targetEntity="Image")
+     * @ORM\JoinColumn(name="thumbnail", referencedColumnName="id", nullable=true)
+    private $thumbnail;
 
     /**
      * @var string
@@ -94,26 +93,22 @@ class Room
     }
 
     /**
-     * Set images
-     *
-     * @param array $images
+     * @param Image $thumbnail
      * @return Room
      */
-    public function setImages($images)
+    public function setThumbnail(Image $thumbnail)
     {
-        $this->images = $images;
+        $this->thumbnail = $thumbnail;
     
         return $this;
     }
 
     /**
-     * Get images
-     *
-     * @return array 
+     * @return Image
      */
-    public function getImages()
+    public function getThumbnail()
     {
-        return $this->images;
+        return $this->thumbnail;
     }
 
     /**

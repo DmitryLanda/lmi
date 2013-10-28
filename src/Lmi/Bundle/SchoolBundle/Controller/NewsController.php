@@ -4,36 +4,38 @@ namespace Lmi\Bundle\SchoolBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Lmi\Bundle\SchoolBundle\Form\Map\NewsMap;
-use Lmi\Bundle\SchoolBundle\Service\ImageService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Lmi\Bundle\SchoolBundle\Entity\News;
-use Lmi\Bundle\SchoolBundle\Form\NewsType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\SecurityContextInterface;
+use Lmi\Bundle\SchoolBundle\Entity\News;
+use Lmi\Bundle\SchoolBundle\Entity\Manager\ManagerInterface;
+use Lmi\Bundle\SchoolBundle\Form\NewsType;
+use Lmi\Bundle\SchoolBundle\Form\Map\NewsMap;
+use Lmi\Bundle\SchoolBundle\Service\ImageService;
 
 /**
  * News controller.
  *
  */
-class NewsController extends Controller
+class NewsController extends BaseController
 {
 
     /**
      * Lists all News entities.
      *
+     * @Template()
      */
     public function indexAction()
     {
-        //todo add pagination
-        $newsList = $this->getNewsRepository()->findBy(array(), array('showDate' => 'DESC', 'lastUpdate' => 'DESC'));
+        $newsList = $this->getNewsManager()->findBy(
+            array(),
+            array('showDate' => 'DESC', 'lastUpdate' => 'DESC')
+        );
 
-        return $this->render('LmiSchoolBundle:News:index.html.twig', array(
-            'newsList' => $newsList
-        ));
+        return array('newsList' => $this->paginate($newsList));
     }
     /**
      * Creates a new News entity.
@@ -197,7 +199,7 @@ class NewsController extends Controller
             /** @var ImageService $imageService */
             $imageService = $this->get('lmi_school.service.image');
             /** @var UploadedFile $file */
-            $file = $form->getData()->getImage();
+            $file = $form->getData()->getImage()['image'];
             $image = $imageService->save($file, 'news');
             $news->setImage($image);
         }
@@ -235,5 +237,13 @@ class NewsController extends Controller
     private function findNewsByIdentifier($identifier)
     {
         return $this->getNewsRepository()->findOneByIdentifier($identifier);
+    }
+
+    /**
+     * @return ManagerInterface
+     */
+    private function getNewsManager()
+    {
+        return $this->get('lmi_school.manager.news');
     }
 }

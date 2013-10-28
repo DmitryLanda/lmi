@@ -21,12 +21,15 @@
                 <li>
                     <a data-toggle="tab" href="#projects">{{ 'lmi.school.common.teacher.projects'|trans }}</a>
                 </li>
+                <li>
+                    <a data-toggle="tab" href="#photos">{{ 'lmi.school.common.teacher.photos'|trans }}</a>
+                </li>
             </ul>
             <div class="tab-content">
-                <div class="span4 padding-right-10">
-                    <img src="{{ image }}" class="thumbnail pull-left span11">
-                </div>
                 <div id="common" class="tab-pane active">
+                    <div class="span4 padding-right-10">
+                        <img src="{{ image }}" class="thumbnail pull-left span11">
+                    </div>
                     <dl class="dl-horizontal">
                         {% set defaultElement = '<span class="muted">' ~ 'lmi.school.common.not_set'|trans ~ '</span>' %}
 
@@ -80,6 +83,17 @@
                         {% for project in teacher.projects %}
                             <li class="well well-small">
                                 <a href="{{ project.document }}">{{ project.name ~ ', ' ~ project.publishedAt|date('Y') }}</a>
+                            </li>
+                        {% else %}
+                            <li class="span8">{{ defaultElement|raw }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div id="photos" class="tab-pane">
+                    <ul class="thumbnails">
+                        {% for photo in photos|default([]) %}
+                            <li class="thumbnail span5">
+                                <img src="{{ path('image_get', {'id': photo, 'size': 'medium'}) }}"
                             </li>
                         {% else %}
                             <li class="span8">{{ defaultElement|raw }}</li>

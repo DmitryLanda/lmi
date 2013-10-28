@@ -26,3 +26,18 @@ parameters:
         1: 'lmi.school.common.teacher.category.first'
         2: 'lmi.school.common.teacher.category.second'
         3: 'lmi.school.common.teacher.category.empty'
+
+    subjects:
+        - русский язык и литература
+        - математика
+        - информатика и ИКТ
+        - английский язык
+        - физика
+        - химия
+        - биология
+        - начальные классы
+        - мировая художественная культура
+        - история
+        - обществознание
+        - физическая культура
+        - изобразительное искусство

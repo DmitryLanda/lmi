@@ -17,6 +17,9 @@
                     <th>Ф.И.О.</th>
                     <th>Предмет</th>
                     <th>Кабинет</th>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <th>&nbsp;</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -38,9 +41,13 @@
                             </ul>
                         </td>
                         <td>{{ teacher.subject }}</td>
-                        <td>{{ 'lmi.school.common.teacher.room'|trans }}&nbsp;{{ teacher.room.number }}</td>
                         <td>
-                            {% if is_granted('ROLE_ADMIN') %}
+                            {% if teacher.room %}
+                                {{ 'lmi.school.common.teacher.room'|trans }}&nbsp;{{ teacher.room.number }}
+                            {% endif %}
+                        </td>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <td>
                                 <ul class="nav nav-pills">
                                     <li>
                                         <a href="{{ path('teacher_edit', {'name': teacher.canonicalName}) }}"><i class="icon icon-pencil"></i></a>
@@ -49,8 +56,8 @@
                                         <a href="{{ path('teacher_delete', {'name': teacher.canonicalName}) }}" data-action="remove"><i class="icon icon-trash"></i></a>
                                     </li>
                                 </ul>
-                            {% endif %}
-                        </td>
+                            </td>
+                        {% endif %}
                     </tr>
                 {% else %}
                     <div class="alert alert-info">{{ 'lmi.school.common.no_records'|trans }}</div>
