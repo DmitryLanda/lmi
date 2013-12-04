@@ -36,7 +36,12 @@ class AlbumManager implements AlbumManagerInterface
     /**
      * @var string
      */
-    private $urlPattern;
+    private $albumUrlPattern;
+
+    /**
+     * @var string
+     */
+    private $albumCollectionUrlPattern;
 
     /**
      * @var string
@@ -57,7 +62,8 @@ class AlbumManager implements AlbumManagerInterface
     {
         $this->connection = $connection;
         $this->serializer = $serializer;
-        $this->urlPattern = $options['url_pattern']['album'];
+        $this->albumUrlPattern = $options['url_pattern']['album'];
+        $this->albumCollectionUrlPattern = $options['url_pattern']['album_collection'];
         $this->format = $options['type'];
     }
 
@@ -99,8 +105,6 @@ class AlbumManager implements AlbumManagerInterface
             $content = json_encode($data);
             try {
                 $rawResponse = $this->connection->post($albumUrl . '?format=json', $headers, $content);
-                var_dump($albumUrl);
-                var_dump($rawResponse); die();
             } catch (ClientException $e) {
                 throw new YandexException('Unable to create album', null, $e);
             }
@@ -120,12 +124,44 @@ class AlbumManager implements AlbumManagerInterface
     }
 
     /**
-     * @param integer $id
+     * {@inheritdoc}
+     *
+     * @return AlbumInterface[]
+     */
+    public function getAll()
+    {
+        $url = $this->buildUrl();
+
+        try {
+            $rawResponse = $this->connection->get($url);
+        } catch (ClientException $e) {
+            throw new YandexException('Unable to fetch albums', null, $e);
+        }
+
+        $response = $this->processResponse($rawResponse);
+
+        $albums = array();
+
+        foreach ($response['entries'] as $albumData) {
+            $albums[] = new Album($albumData);
+        }
+
+        return $albums;
+    }
+
+    /**
+     * @param integer|null $id
      * @return string
      */
-    private function buildUrl($id)
+    private function buildUrl($id = null)
     {
-        return sprintf($this->urlPattern . '%d/?format=%s', $id, $this->format);
+        if ($id) {
+            $url = sprintf($this->albumUrlPattern . '%d/?format=%s', $id, $this->format);
+        } else {
+            $url = sprintf($this->albumCollectionUrlPattern . '?format=%s', $this->format);
+        }
+
+        return $url;
     }
 
     /**

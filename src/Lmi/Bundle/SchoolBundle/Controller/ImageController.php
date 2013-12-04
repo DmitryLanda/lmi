@@ -42,7 +42,6 @@ class ImageController extends Controller
 
         /** @var $image ImageInterface */
         $image = $yaService->getImage($id);
-
         switch ($size) {
             case 'extra':
                 $imagePath = $image->getExtraLarge();
@@ -100,7 +99,7 @@ class ImageController extends Controller
     {
         /** @var YandexFotkiService $yaService  */
         $yaService = $this->get('lmi_school.yandex.service.fotki');
-        var_dump($yaService->addAlbum('MyTestAlbum'));
+        var_dump($yaService->getImage(800075));
 
         return new Response();
     }

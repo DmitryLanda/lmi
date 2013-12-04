@@ -78,6 +78,7 @@
             <argument type="collection">
                 <argument key="url_pattern" type="collection">
                     <argument key="album" type="string">http://api-fotki.yandex.ru/api/users/lmi-images/album/</argument>
+                    <argument key="album_collection" type="string">http://api-fotki.yandex.ru/api/users/lmi-images/albums/</argument>
                 </argument>
                 <argument key="type" type="string">json</argument>
             </argument>

@@ -62,15 +62,22 @@ class YandexFotkiService
      * @return ImageInterface
      * @throws YandexException
      */
-    public function addImage(File $file, $albumId)
+    public function addImage(File $file, $album)
     {
         try {
-            $album = $this->albumManager->get($albumId);
+            if (is_string($album)) {
+                $album = $this->albumManager->create($album);
+            } elseif (is_integer($album)) {
+                $album = $this->albumManager->get($album);
+            } elseif (!$album instanceof AlbumInterface) {
+                throw new YandexException('Invalid album passed. It could be a string, integer or an instance of AlbumInterface');
+            }
+
             if (!$album) {
                 throw new YandexException('Album not found');
             }
 
-            $image = $this->imageManager->upload($file, $album);
+            $image = $this->imageManager->create($file, $album);
         } catch (YandexException $e) {
             $this->logger->error($e->getMessage());
             $this->logger->error($e->getTraceAsString());
@@ -136,6 +143,23 @@ class YandexFotkiService
         }
 
         return $album;
+    }
+
+    /**
+     * @return AlbumInterface[]
+     */
+    public function getAlbums()
+    {
+        try {
+            $albums = $this->albumManager->getAll();
+        } catch (YandexException $e) {
+            $this->logger->error($e->getMessage());
+            $this->logger->error($e->getTraceAsString());
+
+            $albums[] = $this->albumManager->create();
+        }
+
+        return $albums;
     }
 
     /**

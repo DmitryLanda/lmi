@@ -9,7 +9,28 @@
         <form class="form-horizontal" method="POST" action="{{ path('news_create') }}" {{ form_enctype(form) }}>
             <fieldset>
                 <legend>{{ 'lmi.school.common.news.add_news_title'|trans }}</legend>
-                {{ form_widget(form) }}
+                {{ form_row(form.showDate) }}
+                {{ form_row(form.title) }}
+                {{ form_row(form.content) }}
+                <div class="control-group">
+                    {{ form_label(form.images) }}
+                    <div class="controls images">
+                        <a href="#" class="btn btn-mini" data-action="add"><i class="icon icon-plus"></i>Добавить изображение</a>
+                        <ul class="nav nav-list" data-prototype="{{ form_widget(form.images.vars.prototype)|e }}">
+                            <li class="divider"></li>
+                            {% for image in form.images %}
+                                <li>
+                                    {{ form_widget(image) }}
+                                    <div class="controls">
+                                        <a href="#" class="btn btn-mini" data-action="remove"><i class="icon icon-trash"></i>Удалить изображение</a>
+                                    </div>
+                                </li>
+                                <li class="divider"></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                {{ form_row(form.author) }}
                 <div class="control-group">
                     <div class="controls">
                         <button name="news-add" class="btn btn-success">{{ 'lmi.school.common.add_button'|trans }}</button>
@@ -29,6 +50,55 @@
         $('[name="news-cancel"]').first().click(function(e) {
             e.preventDefault();
             location.href = "{{ path('news') }}";
+        });
+
+        $('[data-action="add"]').click(function(e) {
+            e.preventDefault();
+            var link = $(e.currentTarget);
+
+            var collection = link.parent().find('ul');
+            var prototype = collection.data('prototype');
+            var index = collection.find('li:not(.divider)').length;
+
+            var newItem = $(prototype.replace(/__name__/g, index));
+            var removeLink = $('[data-action="remove"]').first().clone();
+            var removeLinkWrapper = $('<div class="controls"></div>');
+            removeLinkWrapper.append(removeLink);
+
+            var newItemWrapper = $('<li></li>');
+            newItemWrapper.append(newItem);
+            newItemWrapper.append(removeLinkWrapper);
+            collection.append(newItemWrapper);
+            collection.append('<li class="divider"></li>');
+        });
+
+        $(document).on('click', '[data-action="remove"]', function(e) {
+            e.preventDefault();
+            var link = $(e.currentTarget);
+
+            var item = link.parentsUntil('ul').last();
+            var dividerLink = item.next();
+            if (dividerLink.hasClass('divider')) {
+                dividerLink.remove();
+            }
+            item.remove();
+        });
+
+        $(document).on('click', '.images select', function(e) {
+            var value = e.currentTarget.value;
+
+            if (value == 'new') {
+                var album = prompt('Новый альбом');
+
+                if (album) {
+                    var option = $('<option></option>');
+                    option.val(album);
+                    option.text(album);
+                    option.attr('selected', 'selected');
+                    $(e.currentTarget).append(option);
+                }
+            }
+
         });
     </script>
 {% endblock %}

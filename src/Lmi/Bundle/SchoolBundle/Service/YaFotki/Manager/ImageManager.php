@@ -73,7 +73,10 @@ class ImageManager implements ImageManagerInterface
         $url = $this->buildUrl($id);
 
         try {
-            $rawResponse = $this->connection->get($url);
+            $headers = array(
+                'Authorization' => sprintf('OAuth %s', $this->token)
+            );
+            $rawResponse = $this->connection->get($url, $headers);
         } catch (ClientException $e) {
             throw new YandexException('Unable to fetch image', null, $e);
         }
@@ -94,7 +97,10 @@ class ImageManager implements ImageManagerInterface
         $url = $album->getPhotoCollectionUrl();
 
         try {
-            $rawResponse = $this->connection->get($url);
+            $headers = array(
+                'Authorization' => sprintf('OAuth %s', $this->token)
+            );
+            $rawResponse = $this->connection->get($url, $headers);
         } catch (ClientException $e) {
             throw new YandexException('Unable to fetch images', null, $e);
         }
@@ -110,13 +116,13 @@ class ImageManager implements ImageManagerInterface
 
     /**
      * @param File $file
-     * @param string $albumUrl
+     * @param AlbumInterface $album
      * @return ImageInterface
      * @throws YandexException
      */
-    public function create(File $file = null, $albumUrl = null)
+    public function create(File $file = null, $album = null)
     {
-        $albumUrl = $albumUrl ? $albumUrl : $this->urlPattern;
+        $albumUrl = $album ? $album->getPhotoCollectionUrl() : $this->urlPattern;
         $data = array();
         if ($file) {
             $headers = array(

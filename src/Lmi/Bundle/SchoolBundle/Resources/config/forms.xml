@@ -27,5 +27,11 @@
             <argument>%category_map%</argument>
             <tag name="form.type" alias="lmi_category_choices" />
         </service>
+
+        <service id="yandex_fotki_album_choices" class="Lmi\Bundle\SchoolBundle\Form\Type\AlbumChoiceType">
+            <argument type="service" id="lmi_school.yandex.manager.album"/>
+            <tag name="form.type" alias="yandex_fotki_album_choices" />
+        </service>
+
     </services>
 </container>

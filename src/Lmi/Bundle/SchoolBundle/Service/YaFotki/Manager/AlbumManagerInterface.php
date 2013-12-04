@@ -30,4 +30,9 @@ interface AlbumManagerInterface
      * @param integer $id
      */
     public function remove($id);
+
+    /**
+     * @return AlbumInterface[]
+     */
+    public function getAll();
 }

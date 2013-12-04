@@ -4,20 +4,21 @@
 *
 * For the full copyright and license information, please view the
 * LICENSE file that was distributed with this source code.
-*/ 
+*/
 
 namespace Lmi\Bundle\SchoolBundle\Form\Map;
 
 use DateTime;
 use Lmi\Bundle\SchoolBundle\Entity\Image;
 use Lmi\Bundle\SchoolBundle\Entity\News;
+use Lmi\Bundle\SchoolBundle\Form\Type\ImageType;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @author Dmitry Landa <dmitry.landa@yandex.ru>
  */
-class NewsMap 
+class NewsMap
 {
     /**
      * @var string
@@ -35,9 +36,9 @@ class NewsMap
     private $showDate;
 
     /**
-     * @var File|UploadedFile|Image
+     * @var ImageType[]
      */
-    private $image;
+    private $images;
 
     /**
      * @var string
@@ -64,22 +65,22 @@ class NewsMap
     }
 
     /**
-     * @param Image|File|UploadedFile $image
+     * @param mixed $images
      * @return NewsMap
      */
-    public function setImage($image)
+    public function setImages($images)
     {
-        $this->image = $image;
+        $this->images = $images;
 
         return $this;
     }
 
     /**
-     * @return Image|File|UploadedFile
+     * @return mixed
      */
-    public function getImage()
+    public function getImages()
     {
-        return $this->image;
+        return $this->images;
     }
 
     /**

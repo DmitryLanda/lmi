@@ -62,8 +62,10 @@ class Album implements AlbumInterface
         $this->selfLink = substr($selfLink, 0, strpos($selfLink, '?'));
         $photoCollectionLink = $data['links']['photos'];
         $this->photoCollectionUrl = substr($photoCollectionLink, 0, strpos($photoCollectionLink, '?'));
-        $this->largeThumbnail = $data['img']['S']['href'];
-        $this->smallThumbnail = $data['img']['XXS']['href'];
+        if (isset($data['img'])) {
+            $this->largeThumbnail = $data['img']['S']['href'];
+            $this->smallThumbnail = $data['img']['XXS']['href'];
+        }
     }
 
     /**

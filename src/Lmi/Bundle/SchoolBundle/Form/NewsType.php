@@ -35,9 +35,14 @@ class NewsType extends AbstractType
                     'placeholder' => 'lmi.school.common.news.content_placeholder'
                 )
             ))
-            ->add('image', 'ya_image_loader', array(
+            ->add('images', 'collection', array(
                 'label' => 'lmi.school.common.news.image',
-                'required' => false,
+                'required' => true,
+                'type' => 'yandex_fotki_album_choices',
+                'allow_add'    => true,
+                'by_reference' => false,
+                'allow_delete' => true,
+                'prototype' => true
             ))
             ->add('author', 'text', array(
                 'label' => 'lmi.school.common.news.author',

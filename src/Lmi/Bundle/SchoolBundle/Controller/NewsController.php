@@ -4,6 +4,7 @@ namespace Lmi\Bundle\SchoolBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Lmi\Bundle\SchoolBundle\Service\YaFotki\YandexFotkiService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -187,7 +188,7 @@ class NewsController extends BaseController
         $newsMap = $form->getData();
         $newsMap->updateModel($news);
         $this->updateAuthor($form, $news);
-//        $this->updateImage($form, $news);
+        $this->updateImage($form, $news);
     }
 
     /**
@@ -196,13 +197,11 @@ class NewsController extends BaseController
      */
     private function updateImage(Form $form, News $news)
     {
-        if ($form->getData()->getImage()) {
-            /** @var ImageService $imageService */
-            $imageService = $this->get('lmi_school.service.image');
-            /** @var UploadedFile $file */
-            $file = $form->getData()->getImage();
-            $image = $imageService->save($file['image'], 'news');
-            $news->setImage($image);
+        /** @var YandexFotkiService $yaService  */
+        $yaService = $this->get('lmi_school.yandex.service.fotki');
+        foreach ($form->getData()->getImages() as $imageMap) {
+            $image = $yaService->addImage($imageMap['image'], $imageMap['album']);
+            $news->addImage($image->getImageId());
         }
     }
 
