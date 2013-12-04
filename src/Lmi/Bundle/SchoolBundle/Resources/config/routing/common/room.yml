@@ -3,5 +3,5 @@ rooms:
     defaults: { _controller: "LmiSchoolBundle:Room:index" }
 
 room_show:
-    pattern:  /{number}/show
+    pattern:  /{number}
     defaults: { _controller: "LmiSchoolBundle:Room:show" }

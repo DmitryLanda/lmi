@@ -13,31 +13,27 @@
 
         <ul class="thumbnails">
             {% for news in newsList %}
-                <li>
-                    <h4>
-                        <span class="muted">{{ news.showDate|date('d.m.Y') }}</span>
-                        <span>{{ news.title }}</span>
-                    </h4>
-                    {% set image = path('image_get', {'id': news.image.imageId|default(0), 'size': 'small'}) %}
-                    <img src="{{ image }}" class="thumbnail">
-                    <div class="content">
-                        <p>{{ news.content|markdown|striptags|truncate(100) }}</p>
-                    </div>
-                    <div class="controls">
-                        <a class="btn pull-right" href="{{ path('news_show', {'identifier': news.identifier }) }}">
-                            {{ 'lmi.school.common.news.read_more'|trans }}
-                        </a>
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <ul class="nav nav-pills">
-                                <li>
-                                    <a href="{{ path('news_edit', {'identifier': news.identifier }) }}"><i class="icon icon-pencil"></i></a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('news_delete', {'identifier': news.identifier }) }}" data-action="remove"><i class="icon icon-trash"></i></a>
-                                </li>
-                            </ul>
-                        {% endif %}
-                    </div>
+                <li class="span3">
+                    <a href="{{ path('news_show', {'identifier': news.identifier }) }}" class="thumbnail">
+                        {% set image = path('image_get', {'id': news.firstImage|default(0), 'size': 'small'}) %}
+                        <img src="{{ image }}">
+                        <div class="caption">
+                            <h4>
+                                <span class="muted"><em>{{ news.showDate|date('d.m.Y') }}</em></span>
+                                <span>{{ news.title }}</span>
+                            </h4>
+                        </div>
+                    </a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <ul class="nav nav-pills">
+                            <li>
+                                <a href="{{ path('news_edit', {'identifier': news.identifier }) }}"><i class="icon icon-pencil"></i></a>
+                            </li>
+                            <li>
+                                <a href="{{ path('news_delete', {'identifier': news.identifier }) }}" data-action="remove"><i class="icon icon-trash"></i></a>
+                            </li>
+                        </ul>
+                    {% endif %}
                 </li>
             {% else %}
                 <div class="alert alert-info">{{ 'lmi.school.common.no_records'|trans }}</div>

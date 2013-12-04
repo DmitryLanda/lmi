@@ -4,18 +4,15 @@
 *
 * For the full copyright and license information, please view the
 * LICENSE file that was distributed with this source code.
-*/ 
-namespace Lmi\Bundle\SchoolBundle\Service\YaFotki\ImageFactory;
+*/
+namespace Lmi\Bundle\SchoolBundle\Service\YaFotki\Exception;
 
-use Lmi\Bundle\SchoolBundle\Entity\Image;
+use RuntimeException;
 
 /**
  * @author Dmitry Landa <dmitry.landa@yandex.ru>
  */
-interface ImageFactoryInterface
+class YandexException extends RuntimeException
 {
-    /**
-     * @return Image
-     */
-    public static function create($data);
+
 }

@@ -55,44 +55,39 @@ body {
   display: inline-block;
 }
 
-.thumbnails-preview .thumbnail {
-  height: 75px;
-  margin: 10px 5px 0 0;
+#news {
+  .thumbnails > li {
+    margin-left: 0;
+    margin-right: 10px;
+
+    a.thumbnail {
+      .box-sizing(border-box);
+      height: 180px;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  p {
+    font-family: sans-serif;
+    font-size: 12pt;
+  }
+
+  blockquote {
+    font-family: sans-serif;
+    font-size: 12pt;
+    font-style: italic;
+  }
+
+  .galery a.thumbnail {
+    height: auto !important;
+  }
 }
 
-.thumbnails-preview div {
-  height: auto !important;
-}
 
-#news .thumbnails > li {
-  margin-left: 0;
-  width: 100%;
-  padding: 10px;
-}
 
-#news .thumbnails > li:nth-child(even) {
-  background-color: #F8F8F8;
-}
-
-#news .thumbnails > li:last-child {
-  background-color: #fff;
-}
-
-#news img.thumbnail {
-  float: left;
-  margin-right: 2%;
-  max-width: 150px;
-}
-
-#news .content:after {
-  clear: both;
-  content: "";
-  display: block;
-}
-
-#news .controls {
-  margin-top: 10px;
-}
 
 .text-bold {
   font-weight: bold;

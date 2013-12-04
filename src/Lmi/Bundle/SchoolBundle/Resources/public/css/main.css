@@ -53,22 +53,6 @@ body {
     height: auto !important;
 }
 
-#news .thumbnails > li {
-    margin-left: 0;
-    width: 100%;
-    padding: 10px;
-}
-
-#news .thumbnails > li:nth-child(even) {
-    background-color: #F8F8F8;
-}
-
-#news img.thumbnail {
-    float: left;
-    margin-right: 2%;
-    max-width: 150px;
-}
-
 #news .content:after {
     clear: both;
     content: "";

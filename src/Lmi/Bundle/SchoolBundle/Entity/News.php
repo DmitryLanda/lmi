@@ -67,12 +67,11 @@ class News
     private $author;
 
     /**
-     * @var Image
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="Image")
-     * @ORM\JoinColumn(name="image_id", referencedColumnName="id", nullable=true)
+     * @ORM\Column(name="images", type="text", nullable=true)
      */
-    private $image;
+    private $images;
 
     /**
      * @var string
@@ -104,7 +103,7 @@ class News
     public function setTitle($title)
     {
         $this->title = $title;
-    
+
         return $this;
     }
 
@@ -122,7 +121,7 @@ class News
     public function setContent($content)
     {
         $this->content = $content;
-    
+
         return $this;
     }
 
@@ -141,7 +140,7 @@ class News
     public function setCreated($created)
     {
         $this->created = $created;
-    
+
         return $this;
     }
 
@@ -168,7 +167,7 @@ class News
     public function setShowDate($showDate)
     {
         $this->showDate = $showDate;
-    
+
         return $this;
     }
 
@@ -187,7 +186,7 @@ class News
     public function setAuthor($author)
     {
         $this->author = $author;
-    
+
         return $this;
     }
 
@@ -200,22 +199,47 @@ class News
     }
 
     /**
-     * @param Image|null $image
+     * @return array
+     */
+    public function getImages()
+    {
+        return explode(',', $this->images);
+    }
+
+    /**
+     * @param integer|string $image
      * @return News
      */
-    public function setImage(Image $image = null)
+    public function addImage($image)
     {
-        $this->image = $image;
+        if (strpos($this->images, $image) === false) {
+            $this->images .= ',' . $image;
+        }
 
         return $this;
     }
 
     /**
-     * @return Image|null
+     * @param integer|string $image
+     * @return News
      */
-    public function getImage()
+    public function removeImage($image)
     {
-        return $this->image;
+        $this->images = str_replace($image, '', $this->images);
+
+        return $this;
+    }
+
+    /**
+     * @return integer|null
+     */
+    public function getFirstImage()
+    {
+        if (!$this->images) {
+            return null;
+        }
+
+        return $this->getImages()[0];
     }
 
     /**

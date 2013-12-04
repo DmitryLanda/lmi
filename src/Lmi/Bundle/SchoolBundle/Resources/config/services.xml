@@ -21,7 +21,18 @@
     <parameters>
         <parameter key="lmi_school.menu_builder.class">Lmi\Bundle\SchoolBundle\Menu\Builder</parameter>
         <parameter key="lmi_school.menu_item.class">Knp\Menu\MenuItem</parameter>
+
         <parameter key="lmi_school.service.image.class">Lmi\Bundle\SchoolBundle\Service\ImageService</parameter>
+        <parameter key="lmi_school.yandex.service.fotki.class">Lmi\Bundle\SchoolBundle\Service\YaFotki\YandexFotkiService</parameter>
+
+        <parameter key="lmi_school.factory.serializer.class">Lmi\Bundle\SchoolBundle\Service\YaFotki\Serializer\SerializerFactory</parameter>
+
+        <parameter key="lmi_school.yandex.manager.album.class">Lmi\Bundle\SchoolBundle\Service\YaFotki\Manager\AlbumManager</parameter>
+        <parameter key="lmi_school.yandex.manager.image.class">Lmi\Bundle\SchoolBundle\Service\YaFotki\Manager\ImageManager</parameter>
+
+        <parameter key="lmi_school.buzz.browser.class">Buzz\Browser</parameter>
+        <!--todo move to config -->
+        <parameter key="lmi_school.buzz.client.class">Buzz\Client\Curl</parameter>
     </parameters>
 
     <services>
@@ -47,6 +58,46 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="logger" />
             <argument>%yandex%</argument>
+        </service>
+
+        <service id="lmi_school.buzz.client" class="%lmi_school.buzz.client.class%" />
+
+        <service id="lmi_school.buzz.browser" class="%lmi_school.buzz.browser.class%">
+            <argument type="service" id="lmi_school.buzz.client" />
+            <argument>null</argument> <!-- Factory class -->
+        </service>
+
+        <service id="lmi_school.service.serializer" class="%lmi_school.factory.serializer.class%" factory-class="%lmi_school.factory.serializer.class%"
+                factory-method="create">
+            <argument>json</argument>
+        </service>
+
+        <service id="lmi_school.yandex.manager.album" class="%lmi_school.yandex.manager.album.class%">
+            <argument type="service" id="lmi_school.buzz.browser" />
+            <argument type="service" id="lmi_school.service.serializer" />
+            <argument type="collection">
+                <argument key="url_pattern" type="collection">
+                    <argument key="album" type="string">http://api-fotki.yandex.ru/api/users/lmi-images/album/</argument>
+                </argument>
+                <argument key="type" type="string">json</argument>
+            </argument>
+        </service>
+
+        <service id="lmi_school.yandex.manager.image" class="%lmi_school.yandex.manager.image.class%">
+            <argument type="service" id="lmi_school.buzz.browser" />
+            <argument type="service" id="lmi_school.service.serializer" />
+            <argument type="collection">
+                <argument key="url_pattern" type="collection">
+                    <argument key="image" type="string">http://api-fotki.yandex.ru/api/users/lmi-images/photo/</argument>
+                </argument>
+                <argument key="type" type="string">json</argument>
+            </argument>
+        </service>
+
+        <service id="lmi_school.yandex.service.fotki" class="%lmi_school.yandex.service.fotki.class%">
+            <argument type="service" id="lmi_school.yandex.manager.image" />
+            <argument type="service" id="lmi_school.yandex.manager.album" />
+            <argument type="service" id="logger" />
         </service>
     </services>
 </container>

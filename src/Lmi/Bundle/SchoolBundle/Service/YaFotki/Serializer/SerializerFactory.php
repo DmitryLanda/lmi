@@ -4,7 +4,7 @@
 *
 * For the full copyright and license information, please view the
 * LICENSE file that was distributed with this source code.
-*/ 
+*/
 namespace Lmi\Bundle\SchoolBundle\Service\YaFotki\Serializer;
 
 use RuntimeException;
@@ -16,6 +16,7 @@ class SerializerFactory
 {
     /**
      * @param string $type
+     * @throws RuntimeException
      * @return JsonSerializer|null
      */
     public static function create($type)

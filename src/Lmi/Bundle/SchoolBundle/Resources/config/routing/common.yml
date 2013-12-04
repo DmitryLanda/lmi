@@ -1,18 +1,18 @@
 lmi_school_news:
     resource: "@LmiSchoolBundle/Resources/config/routing/common/news.yml"
-    prefix:   /новости
+    prefix:   /news
 
 lmi_school_teachers:
     resource: "@LmiSchoolBundle/Resources/config/routing/common/teacher.yml"
-    prefix:   /учителя
+    prefix:   /teachers
 
 lmi_school_images:
     resource: "@LmiSchoolBundle/Resources/config/routing/common/images.yml"
-    prefix:   /изображения
+    prefix:   /images
 
 lmi_school_room:
     resource: "@LmiSchoolBundle/Resources/config/routing/common/room.yml"
-    prefix:   /кабинеты
+    prefix:   /cabinets
 
 lmi_school_page:
     resource: "@LmiSchoolBundle/Resources/config/routing/common/pages.yml"

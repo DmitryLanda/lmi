@@ -5,18 +5,30 @@
 {% block content %}
     <div id="news">
         <h3>{{ news.title }}</h3>
-        <div class="clearfix">
+        <div>
             <div class="span5">
-                {% set image = path('image_get', {'id': news.image.imageId|default(0), 'size': 'medium'}) %}
+                {% set image = path('image_get', {'id': news.firstImage|default(0), 'size': 'small'}) %}
                 <img src="{{ image }}" class="thumbnail pull-left span11">
             </div>
-            <p>{{ news.content|markdown }}</p>
+            <div>{{ news.content|markdown }}</div>
         </div>
+        <div class="clearfix">&nbsp;</div>
         <div class="text-right padding-top-10">
             <small><em>{{ news.author }}:&nbsp;{{ news.lastUpdate|date('d.m.Y H:i') }}</em></small>
         </div>
+
+        <h4>Фотогалерея</h4>
+        <hr>
+        <ul class="thumbnails galery">
+            {% for image in news.images %}
+                <li class="span2">
+                    <a href="#" class="thumbnail">
+                        <img src="{{ path('image_get', {'id': image|default(0), 'size': 'thumb'}) }}"/>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
-    <div class="clearfix">&nbsp;</div>
     <div class="text-center padding-top-10">
         <ul class="nav nav-pills">
             {% if is_granted('ROLE_ADMIN') %}

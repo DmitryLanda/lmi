@@ -32,7 +32,8 @@ class NewsController extends BaseController
     {
         $newsList = $this->getNewsManager()->findBy(
             array(),
-            array('showDate' => 'DESC', 'lastUpdate' => 'DESC')
+            array('showDate' => 'DESC', 'lastUpdate' => 'DESC'),
+            12
         );
 
         return array('newsList' => $this->paginate($newsList));
@@ -186,7 +187,7 @@ class NewsController extends BaseController
         $newsMap = $form->getData();
         $newsMap->updateModel($news);
         $this->updateAuthor($form, $news);
-        $this->updateImage($form, $news);
+//        $this->updateImage($form, $news);
     }
 
     /**

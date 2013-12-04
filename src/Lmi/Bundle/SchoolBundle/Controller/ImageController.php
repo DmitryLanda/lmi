@@ -4,7 +4,7 @@
 *
 * For the full copyright and license information, please view the
 * LICENSE file that was distributed with this source code.
-*/ 
+*/
 namespace Lmi\Bundle\SchoolBundle\Controller;
 
 use Lmi\Bundle\SchoolBundle\Entity\Image;
@@ -12,6 +12,8 @@ use Lmi\Bundle\SchoolBundle\Form\Map\Image as ImageMap;
 use Lmi\Bundle\SchoolBundle\Form\ImageType;
 use Lmi\Bundle\SchoolBundle\Form\TestType;
 use Lmi\Bundle\SchoolBundle\Service\ImageService;
+use Lmi\Bundle\SchoolBundle\Service\YaFotki\Model\ImageInterface;
+use Lmi\Bundle\SchoolBundle\Service\YaFotki\YandexFotkiService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,8 +37,11 @@ class ImageController extends Controller
             return $response;
         }
 
-        /** @var $image Image */
-        $image = $this->get('lmi_school.service.image')->get($id);
+        /** @var YandexFotkiService $yaService  */
+        $yaService = $this->get('lmi_school.yandex.service.fotki');
+
+        /** @var $image ImageInterface */
+        $image = $yaService->getImage($id);
 
         switch ($size) {
             case 'extra':
@@ -85,33 +90,19 @@ class ImageController extends Controller
      */
     public function uploadAction(Request $request)
     {
-        $form = $this->createForm(new ImageType());
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            /** @var ImageService $imageService  */
-            $imageService = $this->get('lmi_school.service.image');
-
-            /** @var UploadedFile $file  */
-            $file = $form->get('file')->getData();
-
-            print '<pre>'; var_dump($imageService->save($file, '')); print '</pre>'; die();
-        }
-
         return new Response('smth goes wrong');
     }
 
     /**
-     * @Template()
-     *
      * @return array
      */
     public function yandexAction()
     {
-        $form = $this->createForm(new TestType());
-        return array(
-            'form' => $form->createView()
-        );
+        /** @var YandexFotkiService $yaService  */
+        $yaService = $this->get('lmi_school.yandex.service.fotki');
+        var_dump($yaService->addAlbum('MyTestAlbum'));
+
+        return new Response();
     }
 
 }
