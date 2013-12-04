@@ -200,8 +200,8 @@ class NewsController extends BaseController
             /** @var ImageService $imageService */
             $imageService = $this->get('lmi_school.service.image');
             /** @var UploadedFile $file */
-            $file = $form->getData()->getImage()['image'];
-            $image = $imageService->save($file, 'news');
+            $file = $form->getData()->getImage();
+            $image = $imageService->save($file['image'], 'news');
             $news->setImage($image);
         }
     }

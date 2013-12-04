@@ -238,8 +238,9 @@ class News
         if (!$this->images) {
             return null;
         }
+        $images = $this->getImages();
 
-        return $this->getImages()[0];
+        return $images[0];
     }
 
     /**
