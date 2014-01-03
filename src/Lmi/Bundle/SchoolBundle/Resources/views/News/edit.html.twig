@@ -12,15 +12,22 @@
                 {{ form_row(form.showDate) }}
                 {{ form_row(form.title) }}
                 {{ form_row(form.content) }}
-                {% if form.image.vars.value or 1 %}
-                    <div class="control-group">
-                        <label class="control-label">{{ 'lmi.school.common.news.old_image'|trans }}</label>
-                        <div class="controls thumbnail span3">
-                            <img src="{{ asset('bundles/lmischool/images/no-image-available.png') }}">
-                        </div>
+                <div class="control-group">
+                    <label class="control-label">Текущие картинки</label>
+                    <div class="controls">
+                        <ul class="thumbnails galery">
+                            {% for currentImage in form.currentImages %}
+                                <li class="span2" style="position: relative">
+                                    <a href="#" class="thumbnail">
+                                        <img src="{{ path('image_get', {'id': currentImage|default(0), 'size': 'thumb'}) }}"/>
+                                    </a>
+                                    <div class="remove-image hidden">
+                                        <a href="#"><i class="icon icon-remove-circle"></i></a>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
                     </div>
-                {% endif %}
-                {{ form_row(form.image) }}
                 {{ form_row(form.author) }}
                 <div class="control-group">
                     <div class="controls">

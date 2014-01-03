@@ -36,7 +36,7 @@ class NewsMap
     private $showDate;
 
     /**
-     * @var ImageType[]
+     * @var array
      */
     private $images;
 
@@ -44,6 +44,11 @@ class NewsMap
      * @var string
      */
     private $author;
+
+    /**
+     * @var array
+     */
+    private $currentImages = array();
 
     /**
      * @param string $content
@@ -81,6 +86,25 @@ class NewsMap
     public function getImages()
     {
         return $this->images;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCurrentImages()
+    {
+        return $this->currentImages;
+    }
+
+    /**
+     * @param array $imageIds
+     * @return NewsMap
+     */
+    public function setCurrentImages(array $imageIds)
+    {
+        $this->currentImages = $imageIds;
+
+        return $this;
     }
 
     /**
@@ -149,7 +173,8 @@ class NewsMap
         $this->setShowDate($news->getShowDate())
             ->setTitle($news->getTitle())
             ->setContent($news->getContent())
-            ->setAuthor($news->getAuthor());
+            ->setAuthor($news->getAuthor())
+            ->setCurrentImages($news->getImages());
 
         return $this;
     }

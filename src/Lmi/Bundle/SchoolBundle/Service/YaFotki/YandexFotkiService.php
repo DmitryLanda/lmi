@@ -7,18 +7,13 @@
 */
 namespace Lmi\Bundle\SchoolBundle\Service\YaFotki;
 
-use Buzz\Browser;
-use Buzz\Client\Curl;
-use Buzz\Exception\ClientException;
 use Buzz\Message\MessageInterface;
-use Lmi\Bundle\SchoolBundle\Entity\Image;
+use Lmi\Bundle\SchoolBundle\Service\YaFotki\Model\Image;
 use Lmi\Bundle\SchoolBundle\Service\YaFotki\Exception\YandexException;
-use Lmi\Bundle\SchoolBundle\Service\YaFotki\ImageFactory\ImageFactory;
 use Lmi\Bundle\SchoolBundle\Service\YaFotki\Manager\AlbumManagerInterface;
 use Lmi\Bundle\SchoolBundle\Service\YaFotki\Manager\ImageManagerInterface;
 use Lmi\Bundle\SchoolBundle\Service\YaFotki\Model\AlbumInterface;
 use Lmi\Bundle\SchoolBundle\Service\YaFotki\Model\ImageInterface;
-use Lmi\Bundle\SchoolBundle\Service\YaFotki\Serializer\SerializerFactory;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\File\File;

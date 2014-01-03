@@ -73,6 +73,7 @@
         </service>
 
         <service id="lmi_school.yandex.manager.album" class="%lmi_school.yandex.manager.album.class%">
+            <argument type="service" id="logger" />
             <argument type="service" id="lmi_school.buzz.browser" />
             <argument type="service" id="lmi_school.service.serializer" />
             <argument type="collection">
@@ -85,6 +86,7 @@
         </service>
 
         <service id="lmi_school.yandex.manager.image" class="%lmi_school.yandex.manager.image.class%">
+            <argument type="service" id="logger" />
             <argument type="service" id="lmi_school.buzz.browser" />
             <argument type="service" id="lmi_school.service.serializer" />
             <argument type="collection">

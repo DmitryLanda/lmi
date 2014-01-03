@@ -14,6 +14,7 @@ use Buzz\Exception\ClientException;
 use Buzz\Message\MessageInterface;
 use Lmi\Bundle\SchoolBundle\Service\YaFotki\Model\AlbumInterface;
 use Lmi\Bundle\SchoolBundle\Service\YaFotki\Model\Image;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Lmi\Bundle\SchoolBundle\Service\YaFotki\ImageFactory\ImageFactory;
 use Lmi\Bundle\SchoolBundle\Service\YaFotki\Exception\YandexException;
@@ -51,12 +52,19 @@ class ImageManager implements ImageManagerInterface
     private $token = '4e57fda3beb640369ab6c45525ccf92f';
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * @param LoggerInterface $logger
      * @param Browser $connection
      * @param SerializerInterface $serializer
      * @param array $options
      */
-    public function __construct(Browser $connection, SerializerInterface $serializer, array $options)
+    public function __construct(LoggerInterface $logger, Browser $connection, SerializerInterface $serializer, array $options)
     {
+        $this->logger = $logger;
         $this->connection = $connection;
         $this->serializer = $serializer;
         $this->format = $options['type'];
@@ -78,7 +86,10 @@ class ImageManager implements ImageManagerInterface
             );
             $rawResponse = $this->connection->get($url, $headers);
         } catch (ClientException $e) {
-            throw new YandexException('Unable to fetch image', null, $e);
+            $this->logger->error('Unuble to fetch user image');
+            $this->logger->error($e->getMessage());
+
+            return new Image();
         }
 
         $response = $this->processResponse($rawResponse);
@@ -102,7 +113,10 @@ class ImageManager implements ImageManagerInterface
             );
             $rawResponse = $this->connection->get($url, $headers);
         } catch (ClientException $e) {
-            throw new YandexException('Unable to fetch images', null, $e);
+            $this->logger->error('Unuble to fetch user images from album ' . $album->getId());
+            $this->logger->error($e->getMessage());
+
+            return array();
         }
 
         $response = $this->processResponse($rawResponse);
@@ -133,7 +147,10 @@ class ImageManager implements ImageManagerInterface
             try {
                 $rawResponse = $this->connection->post($albumUrl . '?format=json', $headers, $content);
             } catch (ClientException $e) {
-                throw new YandexException('Unable to fetch album', null, $e);
+                $this->logger->error('Unable to create image in album #' . $album->getId());
+                $this->logger->error($e->getMessage());
+
+                return new Image();
             }
 
             $data = $this->processResponse($rawResponse);

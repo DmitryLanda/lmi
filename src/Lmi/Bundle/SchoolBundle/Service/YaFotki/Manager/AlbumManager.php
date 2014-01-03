@@ -17,6 +17,7 @@ use Lmi\Bundle\SchoolBundle\Service\YaFotki\Exception\YandexException;
 use Lmi\Bundle\SchoolBundle\Service\YaFotki\Model\Album;
 use Lmi\Bundle\SchoolBundle\Service\YaFotki\Model\AlbumInterface;
 use Lmi\Bundle\SchoolBundle\Service\YaFotki\Serializer\SerializerInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * @author Dmitry Landa <dmitry.landa@yandex.ru>
@@ -54,12 +55,19 @@ class AlbumManager implements AlbumManagerInterface
     private $token = '4e57fda3beb640369ab6c45525ccf92f';
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * @param LoggerInterface $logger
      * @param Browser $connection
      * @param SerializerInterface $serializer
      * @param array $options
      */
-    public function __construct(Browser $connection, SerializerInterface $serializer, array $options)
+    public function __construct(LoggerInterface $logger, Browser $connection, SerializerInterface $serializer, array $options)
     {
+        $this->logger = $logger;
         $this->connection = $connection;
         $this->serializer = $serializer;
         $this->albumUrlPattern = $options['url_pattern']['album'];
@@ -70,7 +78,6 @@ class AlbumManager implements AlbumManagerInterface
     /**
      * @param integer $id
      * @return AlbumInterface|null
-     * @throws YandexException
      */
     public function get($id)
     {
@@ -79,7 +86,10 @@ class AlbumManager implements AlbumManagerInterface
         try {
             $rawResponse = $this->connection->get($url);
         } catch (ClientException $e) {
-            throw new YandexException('Unable to fetch album', null, $e);
+            $this->logger->error('Unuble to fetch user album ' . $id);
+            $this->logger->error($e->getMessage());
+
+            return new Album();
         }
 
         $response = $this->processResponse($rawResponse);
@@ -90,7 +100,6 @@ class AlbumManager implements AlbumManagerInterface
     /**
      * @param string|null $name
      * @param AlbumInterface|null $parent
-     * @throws YandexException
      */
     public function create($name = null, AlbumInterface $parent = null)
     {
@@ -106,7 +115,10 @@ class AlbumManager implements AlbumManagerInterface
             try {
                 $rawResponse = $this->connection->post($albumUrl . '?format=json', $headers, $content);
             } catch (ClientException $e) {
-                throw new YandexException('Unable to create album', null, $e);
+                $this->logger->error('Unuble to create album ' . $name);
+                $this->logger->error($e->getMessage());
+
+                return new Album();
             }
 
             $data = $this->processResponse($rawResponse);
@@ -135,7 +147,10 @@ class AlbumManager implements AlbumManagerInterface
         try {
             $rawResponse = $this->connection->get($url);
         } catch (ClientException $e) {
-            throw new YandexException('Unable to fetch albums', null, $e);
+            $this->logger->error('Unuble to fetch user albums');
+            $this->logger->error($e->getMessage());
+
+            return array();
         }
 
         $response = $this->processResponse($rawResponse);

@@ -203,6 +203,10 @@ class News
      */
     public function getImages()
     {
+        if (!$this->images) {
+            return array();
+        }
+
         return explode(',', $this->images);
     }
 
@@ -212,8 +216,10 @@ class News
      */
     public function addImage($image)
     {
-        if (strpos($this->images, $image) === false) {
-            $this->images .= ',' . $image;
+        $images = $this->getImages();
+        if (!in_array($image, $images)) {
+            $images[] = $image;
+            $this->images =implode(',', $images);
         }
 
         return $this;
@@ -225,7 +231,12 @@ class News
      */
     public function removeImage($image)
     {
-        $this->images = str_replace($image, '', $this->images);
+        $images = $this->getImages();
+        $key = array_search($image, $images);
+        if ($key !== false) {
+            unset($images[$key]);
+            $this->images =implode(',', $images);
+        }
 
         return $this;
     }
