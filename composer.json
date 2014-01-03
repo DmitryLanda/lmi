@@ -26,7 +26,10 @@
         "knplabs/knp-markdown-bundle": "1.2.*@dev",
         "sonata-project/intl-bundle": "2.*",
         "leafo/lessphp": ">=v0.4.0",
-        "knplabs/knp-paginator-bundle": ">=2.3.2"
+        "knplabs/knp-paginator-bundle": ">=2.3.2",
+        "knplabs/gaufrette": "0.1.*",
+        "oneup/uploader-bundle": "@stable",
+        "blueimp/jquery-file-upload": "@stable"
     },
     "scripts": {
         "post-install-cmd": [
