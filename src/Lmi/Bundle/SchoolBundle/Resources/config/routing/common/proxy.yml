@@ -1,0 +1,11 @@
+common_proxy:
+    pattern:  /
+    defaults: { _controller: "LmiSchoolBundle:Proxy/Proxy:sendRequest" }
+    options:
+        expose: true
+
+yandex_test:
+    pattern:  /test
+    defaults: { _controller: "LmiSchoolBundle:Image:yandex" }
+    options:
+        expose: true

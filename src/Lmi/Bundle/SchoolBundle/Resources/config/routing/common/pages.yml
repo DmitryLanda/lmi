@@ -3,4 +3,4 @@ page_show:
     defaults: { _controller: "LmiSchoolBundle:Content:getPage" }
     requirements:
         methods: get
-        slug: (?!admin|login|login_check).+
+        slug: (?!admin|proxy|login|login_check).+

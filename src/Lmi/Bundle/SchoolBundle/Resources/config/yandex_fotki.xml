@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="yandex.fotki.conection.client" class="Buzz\Client\Curl" public="false" >
+            <call method="setTimeout">
+                <argument>30</argument>
+            </call>
+        </service>
+
+        <service id="yandex.fotki.conection.browser" class="Buzz\Browser" public="false">
+            <argument type="service" id="yandex.fotki.conection.client" />
+            <argument>null</argument>
+        </service>
+
+        <service id="yandex.fotki.marshaller"
+                 class="Lmi\Bundle\SchoolBundle\Service\JsonMarshaller"
+                 public="true" />
+
+        <service id="yandex.fotki.connection"
+                 class="Lmi\Bundle\SchoolBundle\Service\Connection">
+            <argument type="service" id="logger" />
+            <argument type="service" id="yandex.fotki.conection.browser" />
+            <argument type="service" id="yandex.fotki.marshaller" />
+            <argument>4e57fda3beb640369ab6c45525ccf92f</argument>
+        </service>
+
+        <service id="yandex.fotki.manager.album" class="Lmi\Bundle\SchoolBundle\Model\Manager\AlbumManager">
+            <argument type="service" id="yandex.fotki.connection" />
+            <argument>http://api-fotki.yandex.ru/api/users/lmi-images/album/:id/?format=json</argument>
+            <argument>http://api-fotki.yandex.ru/api/users/lmi-images/albums/?format=json</argument>
+        </service>
+
+        <service id="yandex.fotki.manager.image" class="Lmi\Bundle\SchoolBundle\Model\Manager\ImageManager">
+            <argument type="service" id="yandex.fotki.connection" />
+            <argument>http://api-fotki.yandex.ru/api/users/lmi-images/photo/:id/?format=json</argument>
+            <argument>http://api-fotki.yandex.ru/api/users/lmi-images/photos/?format=json</argument>
+        </service>
+
+        <service id="yandex.fotki.album_adapter"
+                 class="Lmi\Bundle\SchoolBundle\Service\GaufretteAlbumAdapter">
+            <argument type="service" id="yandex.fotki.manager.album" />
+            <argument type="service" id="logger" />
+        </service>
+
+        <service id="yandex.fotki.image_adapter"
+                 class="Lmi\Bundle\SchoolBundle\Service\GaufrettePhotoAdapter">
+            <argument type="service" id="yandex.fotki.manager.image" />
+            <argument type="service" id="logger" />
+        </service>
+    </services>
+</container>

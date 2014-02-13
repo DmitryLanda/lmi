@@ -1,0 +1,5 @@
+admin_proxy:
+    pattern:  /
+    defaults: { _controller: "LmiSchoolBundle:Proxy/Proxy:sendRequest" }
+    options:
+        expose: true

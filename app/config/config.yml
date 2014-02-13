@@ -87,6 +87,29 @@ knp_paginator:
         pagination: LmiSchoolBundle:KnpPagination:sliding.html.twig     # sliding pagination controls template
         sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
 
+#knp_gaufrette:
+#    adapters:
+#        ya_fotki_album:
+#            service:
+#                id: yandex.fotki.album_adapter
+#        ya_fotki_image:
+#            service:
+#                id: yandex.fotki.image_adapter
+#
+#    filesystems:
+#        albums:
+#            adapter: ya_fotki_album
+#        images:
+#            adapter: ya_fotki_image
+#
+#oneup_uploader:
+#    mappings:
+#        gallery:
+#            frontend: blueimp
+#            storage:
+#                type: gaufrette
+#                filesystem: gaufrette.images_filesystem
+
 lmi_school:
     menu_file: %kernel.root_dir%/../public_html/bundles/lmischool/files/left-menu.yml
     default_image: bundles/lmischool/images/no-image-available.png

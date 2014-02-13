@@ -3,33 +3,86 @@
 <head>
     <meta charset="utf-8">
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script src="{{ asset('bundles/lmischool/js/yaFotkiWidget.js') }}"></script>
-    <script src="{{ asset('bundles/lmischool/js/yaImageLoader.js') }}"></script>
-    <script src="http://masonry.desandro.com/masonry.pkgd.js"></script>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css">
-    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-</head>
-<body>
-<style>
-    .hidden {display: none;}
-    .selected {border: 3px solid cornflowerblue}
-</style>
-<div data-template="album" class="span2 pull-left hidden">
-    <h4 data-template="title"></h4>
-    <img data-template="thumbnail" class="thumbnail">
-    <div>
-        <i><small data-template="created"></small>, <small data-template="author"></small></i>
-    </div>
-</div>
-<div data-template="photo" class="span2 pull-left hidden">
-    <img data-template="thumbnail" class="thumbnail">
-    <div>
-        <i><small data-template="created"></small>, <small data-template="author"></small></i>
-    </div>
-</div>
+    {#<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>#}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    <script src="http://code.angularjs.org/1.2.8/angular.min.js"></script>
+    <script src="http://code.angularjs.org/1.2.8/angular-resource.js"></script>
+    <script src="http://code.angularjs.org/1.2.8/angular-route.min.js"></script>
 
-<div id="yandex" class="clearfix">
-    {{ form_widget(form) }}
-</div>
+    <script src="{{ asset('bundles/lmischool/js/yandex_native.js') }}"></script>
+
+    <script src="{{ asset('bundles/lmischool/js/angular/app.js') }}"></script>
+    <script src="{{ asset('bundles/lmischool/js/angular/services.js') }}"></script>
+    <script src="{{ asset('bundles/lmischool/js/angular/controllers.js') }}"></script>
+    {#<script src="{{ asset('bundles/lmischool/js/angular/filters.js') }}"></script>#}
+    {#<script src="{{ asset('bundles/lmischool/js/angular/directives.js') }}"></script>#}
+
+
+    {% javascripts
+    '../vendor/twitter/bootstrap/js/bootstrap-alert.js'
+    '../vendor/twitter/bootstrap/js/bootstrap-modal.js'
+    '../vendor/twitter/bootstrap/js/bootstrap-transition.js'
+
+    '../vendor/angular-ui-bootstrap/src/transition/transition.js'
+    '../vendor/angular-ui-bootstrap/src/modal/modal.js'
+
+    '@LmiSchoolBundle/Resources/public/js/yandex_native.js'
+
+    '@LmiSchoolBundle/Resources/public/js/angular/app.js'
+    '@LmiSchoolBundle/Resources/public/js/angular/services.js'
+    '@LmiSchoolBundle/Resources/public/js/angular/controllers.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <style>
+        a.selected {
+            background-color: lightskyblue;
+        }
+        [ng-cloak] {
+            display: none !important;
+        }
+        .thumbnails li {
+            width: 170px;
+            height: 200px;
+        }
+        .thumbnails li h5 {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .modal {
+            width: 615px;;
+        }
+    </style>
+</head>
+<body data-ng-app="yandexFotkiApp">
+{#<!-- Button to trigger modal -->#}
+{#<a href="#yandex-fotki" role="button" class="btn" data-toggle="modal" ng-controller="AlbumListCtrl" ng-click="loadAlbums()">Яндекс.Фотки</a>#}
+
+{#<!-- Modal -->#}
+{#<div id="yandex-fotki" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="fotki-modal-label" aria-hidden="true">#}
+    {#<div class="modal-header">#}
+        {#<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>#}
+        {#<h3 id="fotki-modal-label">Яндекс.Фотки</h3>#}
+    {#</div>#}
+    {#<div class="modal-body">#}
+        {#<div id="yandex-fotki-app">#}
+            {#<div ng-view></div>#}
+        {#</div>#}
+    {#</div>#}
+    {#<div class="modal-footer">#}
+        {#<button class="btn" data-dismiss="modal" aria-hidden="true">Отмена</button>#}
+        {#<button class="btn btn-primary">Выбрать</button>#}
+    {#</div>#}
+{#</div>#}
+
+
+
+<div ng-include="'/bundles/lmischool/js/angular/templates/modal.html'"
+
+
 </body>
 </html>
