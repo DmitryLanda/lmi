@@ -188,14 +188,14 @@ class NewsController extends BaseController
         $newsMap = $form->getData();
         $newsMap->updateModel($news);
         $this->updateAuthor($form, $news);
-        $this->updateImage($form, $news);
+        $this->updateImages($form, $news);
     }
 
     /**
      * @param Form $form
      * @param News $news
      */
-    private function updateImage(Form $form, News $news)
+    private function updateImages(Form $form, News $news)
     {
         /** @var YandexFotkiService $yaService  */
         $yaService = $this->get('lmi_school.yandex.service.fotki');

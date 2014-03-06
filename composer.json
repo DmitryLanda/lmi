@@ -1,12 +1,25 @@
 {
-    "name": "symfony/framework-standard-edition",
+    "name": "DmitryLanda/lmischoolbundle",
     "license": "MIT",
     "type": "project",
-    "description": "The \"Symfony Standard Edition\" distribution",
+    "description": "Just a school site written with Symfony2",
     "autoload": {
         "psr-0": { "": "src/" }
     },
-    "repositories": [],
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "version": "dev-master",
+                "name": "angular-ui-bootstrap",
+                "source": {
+                    "url": "https://github.com/angular-ui/bootstrap.git",
+                    "type": "git",
+                    "reference": "master"
+                }
+            }
+        }
+    ],
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "2.3.*",
@@ -26,7 +39,9 @@
         "knplabs/knp-markdown-bundle": "1.2.*@dev",
         "sonata-project/intl-bundle": "2.*",
         "leafo/lessphp": ">=v0.4.0",
-        "knplabs/knp-paginator-bundle": ">=2.3.2"
+        "knplabs/knp-paginator-bundle": ">=2.3.2",
+        "friendsofsymfony/jsrouting-bundle": "@stable",
+        "angular-ui-bootstrap": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

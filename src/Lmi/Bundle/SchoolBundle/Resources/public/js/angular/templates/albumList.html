@@ -1,0 +1,16 @@
+<h4>Albums List</h4>
+<ul class="thumbnails">
+    <li ng-repeat="album in albums">
+        <div>
+            <h5>{{ album.title }}</h5>
+            <a href="#/albums/{{ album.id }}">
+                <object data="{{ album.img.S.href }}">
+                    <img class="thumbnail" ng-src="/bundles/lmischool/images//no-image-available.png" />
+                </object>
+            </a>
+            <a href="{{ album.links.alternate }}">Link to hosting</a>
+        </div>
+    </li>
+</ul>
+
+<button ng-click="processSelectedPhotos()">Process selected photos</button>

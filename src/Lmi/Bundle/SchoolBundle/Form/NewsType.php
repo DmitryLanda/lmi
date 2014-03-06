@@ -35,6 +35,15 @@ class NewsType extends AbstractType
                     'placeholder' => 'lmi.school.common.news.content_placeholder'
                 )
             ))
+            ->add('currentImages', 'collection', array(
+                'label' => 'lmi.school.common.news.image',
+                'required' => false,
+                'type' => 'hidden',
+                'allow_add'    => false,
+                'by_reference' => false,
+                'allow_delete' => true,
+                'prototype' => false
+            ))
             ->add('images', 'collection', array(
                 'label' => 'lmi.school.common.news.image',
                 'required' => true,

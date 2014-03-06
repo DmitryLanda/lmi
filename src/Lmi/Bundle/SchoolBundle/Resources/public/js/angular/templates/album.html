@@ -1,0 +1,22 @@
+<div ng-cloak>
+    <ul class="breadcrumb">
+        <li><a href="#/albums">Альбомы</a> <span class="divider">/</span></li>
+        <li class="active">{{ album.title }}</li>
+    </ul>
+
+    <h4>"{{ album.title }}" <span class="muted">(изображений: {{ album.imageCount }})</span></h4>
+
+    <div>
+        <ul class="thumbnails">
+            <li ng-repeat="photo in photos">
+                <div>
+                    <h5>{{ photo.title }}</h5>
+                    <a ng-click="toggleSelection(photo)" style="cursor: pointer;" class="thumbnail {{ photo.selected }}">
+                        <img ng-src="{{ photo.img.S.href }}" />
+                    </a>
+                    <a ng-href="{{ photo.links.alternate }}">Смотреть на Яндекс.Фотках</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

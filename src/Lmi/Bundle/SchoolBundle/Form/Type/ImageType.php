@@ -4,7 +4,7 @@
 *
 * For the full copyright and license information, please view the
 * LICENSE file that was distributed with this source code.
-*/ 
+*/
 namespace Lmi\Bundle\SchoolBundle\Form\Type;
 
 use Lmi\Bundle\SchoolBundle\Form\Transformer\ImageTransformer;
@@ -27,18 +27,6 @@ class ImageType extends AbstractType
         ->addModelTransformer(new ImageTransformer());
     }
 
-
-    /**
-     * {@inheritdoc}
-     *
-     * @param OptionsResolverInterface $resolver
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => 'Lmi\Bundle\SchoolBundle\Entity\Image'
-        ));
-    }
 
     /**
      * {@inheritdoc}

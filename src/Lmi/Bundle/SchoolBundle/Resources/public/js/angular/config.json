@@ -1,0 +1,8 @@
+{
+    "username": "lmi-images",
+    "serviceDocumentLink": "http://api-fotki.yandex.ru/api/users/:username/",
+    "albumCollectionLink": "",
+    "imageCollectionLink": "",
+    "tagCollectionLink": "",
+    "format": "json"
+}

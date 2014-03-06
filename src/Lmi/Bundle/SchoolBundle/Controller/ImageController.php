@@ -7,14 +7,17 @@
 */
 namespace Lmi\Bundle\SchoolBundle\Controller;
 
-use Lmi\Bundle\SchoolBundle\Entity\Image;
+use Gaufrette\Filesystem;
+use Gaufrette\Adapter\Local as LocalAdapter;
 use Lmi\Bundle\SchoolBundle\Form\Map\Image as ImageMap;
 use Lmi\Bundle\SchoolBundle\Form\ImageType;
-use Lmi\Bundle\SchoolBundle\Form\TestType;
-use Lmi\Bundle\SchoolBundle\Service\ImageService;
+use Lmi\Bundle\SchoolBundle\Model\Image;
+use Lmi\Bundle\SchoolBundle\Model\Manager\AlbumManager;
+use Lmi\Bundle\SchoolBundle\Model\Manager\ImageManager;
 use Lmi\Bundle\SchoolBundle\Service\YaFotki\Model\ImageInterface;
 use Lmi\Bundle\SchoolBundle\Service\YaFotki\YandexFotkiService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,12 +40,12 @@ class ImageController extends Controller
             return $response;
         }
 
-        /** @var YandexFotkiService $yaService  */
-        $yaService = $this->get('lmi_school.yandex.service.fotki');
+        $image = $this->getImageManager()->getOneById($id);
 
-        /** @var $image ImageInterface */
-        $image = $yaService->getImage($id);
         switch ($size) {
+            case 'orig':
+                $imagePath = $image->getOriginal();
+                break;
             case 'extra':
                 $imagePath = $image->getExtraLarge();
                 break;
@@ -56,7 +59,7 @@ class ImageController extends Controller
                 $imagePath = $image->getSmall();
                 break;
             case 'thumb':
-                $imagePath = $image->getThumb();
+                $imagePath = $image->getThumbnail();
                 break;
             default:
                 $imagePath = $image->getSmall();
@@ -75,33 +78,61 @@ class ImageController extends Controller
     }
 
     /**
-     * @return array
-     */
-    public function addAction()
-    {
-        return $this->render('LmiSchoolBundle:Image:add.html.twig', array(
-            'form' => $form = $this->createForm(new ImageType(), new ImageMap())->createView()
-        ));
-    }
-
-    /**
      * @param Request $request
+     * @return Response
      */
-    public function uploadAction(Request $request)
+    public function addAction(Request $request)
     {
-        return new Response('smth goes wrong');
+        $image = $request->files->get('image');
+        $image = $image->move('/tmp/media/');
+        $content = file_get_contents($image->getRealPath());
+
+        $url = null;
+        if ($albumId = $request->get('album')) {
+            $album = $this->getAlbumManager()->getOneById($albumId);
+            $url = $album->getPhotoCollectionUrl();
+        }
+
+        $this->getImageManager()->create(md5(time()), $content, $url);
+
+        return new Response('', 201);
     }
 
     /**
-     * @return array
+     * @return Response
      */
-    public function yandexAction()
+    public function removeAction()
     {
-        /** @var YandexFotkiService $yaService  */
-        $yaService = $this->get('lmi_school.yandex.service.fotki');
-        var_dump($yaService->getImage(800075));
+        $ids = $this->getRequest()->get('id');
+        $ids = (array) $ids;
 
-        return new Response();
+        foreach ($ids as $id) {
+            $this->getImageManager()->remove($id);
+        }
+
+        return new Response('', 204);
+    }
+
+
+    public function yandexAction(Request $request)
+    {
+        return $this->render('LmiSchoolBundle:Image:yandex.html.twig', array());
+    }
+
+    /**
+     * @return ImageManager
+     */
+    private function getImageManager()
+    {
+        return $this->get('yandex.fotki.manager.image');
+    }
+
+    /**
+     * @return AlbumManager
+     */
+    private function getAlbumManager()
+    {
+        return $this->get('yandex.fotki.manager.album');
     }
 
 }

@@ -82,13 +82,23 @@ body {
     font-style: italic;
   }
 
-  .galery a.thumbnail {
-    height: auto !important;
+  .galery {
+    a.thumbnail {
+      height: auto !important;
+    }
+
+    li:hover .remove-image {
+      display: block !important;
+    }
+
+    .remove-image {
+      position: absolute;
+      top: -10%;
+      right: -10%;
+      z-index: 2;
+    }
   }
 }
-
-
-
 
 .text-bold {
   font-weight: bold;

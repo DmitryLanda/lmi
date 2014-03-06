@@ -6,10 +6,6 @@ lmi_school_admin_teachers:
     resource: "@LmiSchoolBundle/Resources/config/routing/admin/teacher.yml"
     prefix:   /teachers
 
-lmi_school_admin_images:
-    resource: "@LmiSchoolBundle/Resources/config/routing/admin/images.yml"
-    prefix:   /images
-
 lmi_school_admin_pages:
     resource: "@LmiSchoolBundle/Resources/config/routing/admin/pages.yml"
     prefix:   /pages
@@ -17,3 +13,8 @@ lmi_school_admin_pages:
 lmi_school_admin_room:
     resource: "@LmiSchoolBundle/Resources/config/routing/admin/room.yml"
     prefix:   /rooms
+
+lmi_school_admin_proxy:
+    resource: "@LmiSchoolBundle/Resources/config/routing/admin/proxy.yml"
+    prefix:   /proxy
+

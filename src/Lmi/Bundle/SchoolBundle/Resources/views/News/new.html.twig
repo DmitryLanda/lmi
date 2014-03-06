@@ -4,6 +4,7 @@
 {% block title %}{{ 'lmi.school.common.news.page_title'|trans }}{% endblock %}
 
 {% block content %}
+    {% set prototype = form_widget(form.images.vars.prototype)|e %}
     <div id="news">
         {{ form_errors(form) }}
         <form class="form-horizontal" method="POST" action="{{ path('news_create') }}" {{ form_enctype(form) }}>
@@ -15,19 +16,20 @@
                 <div class="control-group">
                     {{ form_label(form.images) }}
                     <div class="controls images">
-                        <a href="#" class="btn btn-mini" data-action="add"><i class="icon icon-plus"></i>Добавить изображение</a>
-                        <ul class="nav nav-list" data-prototype="{{ form_widget(form.images.vars.prototype)|e }}">
-                            <li class="divider"></li>
-                            {% for image in form.images %}
-                                <li>
-                                    {{ form_widget(image) }}
-                                    <div class="controls">
-                                        <a href="#" class="btn btn-mini" data-action="remove"><i class="icon icon-trash"></i>Удалить изображение</a>
-                                    </div>
-                                </li>
-                                <li class="divider"></li>
-                            {% endfor %}
-                        </ul>
+                        <a href="#" class="btn btn-mini" data-action="upload"><i class="icon icon-download-alt"></i>Загрузить изображение</a>
+                        <a href="#" class="btn btn-mini" data-action="yf-select"><i class="icon icon-globe"></i>Выбрать на Яндекс.Фотки</a>
+                        {#<ul class="nav nav-list" data-prototype="{{ form_widget(form.images.vars.prototype)|e }}">#}
+                            {#<li class="divider"></li>#}
+                            {#{% for image in form.images %}#}
+                                {#<li>#}
+                                    {#{{ form_widget(image) }}#}
+                                    {#<div class="controls">#}
+                                        {#<a href="#" class="btn btn-mini" data-action="remove"><i class="icon icon-trash"></i>Удалить изображение</a>#}
+                                    {#</div>#}
+                                {#</li>#}
+                                {#<li class="divider"></li>#}
+                            {#{% endfor %}#}
+                        {#</ul>#}
                     </div>
                 </div>
                 {{ form_row(form.author) }}
@@ -43,6 +45,7 @@
             </fieldset>
         </form>
     </div>
+    {% include 'LmiSchoolBundle::Form/imageUpload.html.twig' with {'prototype': prototype} only %}
 {% endblock %}
 
 {% block javascript %}
@@ -52,7 +55,7 @@
             location.href = "{{ path('news') }}";
         });
 
-        $('[data-action="add"]').click(function(e) {
+        $('[data-action="upload"]').click(function(e) {
             e.preventDefault();
             var link = $(e.currentTarget);
 
@@ -61,7 +64,9 @@
             var index = collection.find('li:not(.divider)').length;
 
             var newItem = $(prototype.replace(/__name__/g, index));
-            var removeLink = $('[data-action="remove"]').first().clone();
+            var removeLink = $('<a href="#"><i class="icon icon-trash"></i>Удалить запись</a>');
+            removeLink.attr('data-action', 'remove')
+                .addClass('btn btn-mini');
             var removeLinkWrapper = $('<div class="controls"></div>');
             removeLinkWrapper.append(removeLink);
 
@@ -98,7 +103,6 @@
                     $(e.currentTarget).append(option);
                 }
             }
-
         });
     </script>
 {% endblock %}
